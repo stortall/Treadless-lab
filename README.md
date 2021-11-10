@@ -2,8 +2,5 @@
 Code for c++ bootcamp lab
 
 
-Change done by Johan
-
-Documentation for project 
-
-Another change by Johan
+Use the following command to comnpile driveline_emulator:
+g++ driveline_emulator.cpp -lpthread -lncurses
