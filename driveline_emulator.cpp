@@ -86,9 +86,11 @@ public:
 };
 
 void InputHandler(Driveline* engine) {
+    // init
     initscr();
     cbreak();
     noecho();
+    // keypad(stdscr, TRUE);
     scrollok(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     while (true) {
