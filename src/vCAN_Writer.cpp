@@ -1,11 +1,8 @@
-#include <iostream>
-#include "socketcan_cpp.h"
-#include <chrono>
-#include <thread>
+#include "vCAN_Writer.hpp"
 
 // https://github.com/siposcsaba89/socketcan-cpp
 
-enum gear {D, R, P, N};
+
 
 
 void WriteToCAN(int _id, int _value) {
@@ -34,7 +31,7 @@ void WriteToCAN(int _id, int _value) {
         printf("Message was written to the socket \n");
 
 }
-class WriterHandler {
+/* class WriterHandler {
 public:
     void SetThottle(int _value) {
         WriteToCAN(0, _value);
@@ -52,3 +49,4 @@ int main() {
 
     return 0;
 }
+ */
