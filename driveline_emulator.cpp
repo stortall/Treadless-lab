@@ -3,6 +3,8 @@
 #include<thread>
 #include<chrono>
 #include<array>
+#include "socketcan_cpp.h"
+#include "vCAN_Writer.hpp"
 
 
 class Driveline {
@@ -59,6 +61,8 @@ public:
     }
     void PrintState() {
         system("clear");
+        //WriteToCAN(0, static_cast<int>(engine_speed));
+       // WriteToCAN(1,static_cast<int>(vehicle_speed));
         std::cout << "RPM:      " << (int)(engine_speed)   << " rpm\r" << std::endl;
         std::cout << "Speed:    " << (int)vehicle_speed << " km/h\r" << std::endl;
         std::cout << "Gear:     " << gear+1 << "\r" << std::endl;
@@ -87,7 +91,31 @@ public:
 
 void InputHandler(Driveline* engine) {
     // init
-    initscr();
+    scpp::SocketCan sockat_can;
+    if (sockat_can.open("vcan0") != scpp::STATUS_OK) {
+        std::cout << "Cannot open vcan0." << std::endl;
+        std::cout << "Check whether the vcan0 interface is up!" << std::endl;
+        exit (-1);
+    }
+    while (true) {
+        scpp::CanFrame fr;
+        if (sockat_can.read(fr) == scpp::STATUS_OK) {            
+            if(fr.data[0]==1){
+                engine->SetThrottle(1);
+            }
+            if(fr.data[0]==0){
+                engine->SetThrottle(0);
+            }
+            /* printf("len %d byte, id: %d, data: %02x %02x %02x %02x %02x %02x %02x %02x  \n", fr.len, fr.id, 
+                fr.data[0], fr.data[1], fr.data[2], fr.data[3],
+                fr.data[4], fr.data[5], fr.data[6], fr.data[7]); */
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+   
+   
+   
+   /*  initscr();
     cbreak();
     noecho();
     // keypad(stdscr, TRUE);
@@ -108,7 +136,7 @@ void InputHandler(Driveline* engine) {
         }
         while (getch() != ERR) {}
         napms(100);
-    }
+    } */
 }
 
 int main() {

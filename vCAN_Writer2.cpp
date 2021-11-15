@@ -15,7 +15,7 @@ void WriteToCAN(int _id, int _value) {
 
     scpp::CanFrame cf_to_write;
     
-    cf_to_write.id = 123;
+    cf_to_write.id = 321;
     cf_to_write.len = 8;
     for (int i = 0; i < 8; ++i) {
         if (i == _id) {
@@ -31,22 +31,3 @@ void WriteToCAN(int _id, int _value) {
         printf("Message was written to the socket \n");
 
 }
-/* class WriterHandler {
-public:
-    void SetThottle(int _value) {
-        WriteToCAN(0, _value);
-    }
-    void SetGear(int _value){
-        WriteToCAN(1, _value);
-    }
-};
-
-int main() {
-    WriterHandler wh = WriterHandler();
-    wh.SetThottle(1);
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    wh.SetGear(gear::N);
-
-    return 0;
-}
- */
