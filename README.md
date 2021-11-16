@@ -2,10 +2,10 @@
 Code for c++ bootcamp lab
 
 ## For execution 
-### Run vcan0.sh from util.
-### make a new folder build
-### stand on the build folder,give cmake ../
-### give make
+1. Run vcan0.sh from util.
+2. make a new folder build
+3. stand on the build folder,give cmake ../
+4. give make
 
 This create two executable input and emu ,run both in two diffrent terminals
 
