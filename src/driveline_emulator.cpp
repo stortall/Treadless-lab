@@ -7,28 +7,29 @@
 #include "vCAN_Writer.hpp"
 #include "wh.cpp"
 #include <mutex>
+#include <shared_mutex>
 
 class Driveline {
  private:
   float engine_speed;
   float vehicle_speed;
   int throttle;
-  std::mutex throttle_mutex;
+  mutable std::shared_mutex throttle_mutex;
   bool brake;
-  std::mutex brake_mutex;
+  mutable std::shared_mutex brake_mutex;
   int gear;
   float max_engine_speed;
   std::array<int, 5> ratio;
 
  public:
-  Driveline()
-      : engine_speed(0),
-        vehicle_speed(0),
-        throttle(0),
-        brake(false),
-        gear(0),
-        max_engine_speed(6000),
-        ratio({80, 60, 40, 30, 25}) {}
+  Driveline() :
+    engine_speed(0),
+    vehicle_speed(0),
+    throttle(0),
+    brake(false),
+    gear(0),
+    max_engine_speed(6000),
+    ratio({80, 60, 40, 30, 25}) {}
   void loop() {
     while (true) {
       UpdateState();
@@ -47,22 +48,22 @@ class Driveline {
     }
   }
   void SetThrottle(unsigned int _value) {
-    const std::lock_guard<std::mutex> lock(throttle_mutex);
+    std::unique_lock lock(throttle_mutex);
     throttle = _value;
   }
   int GetThrottle() {
-    const std::lock_guard<std::mutex> lock(throttle_mutex);
+    std::shared_lock lock(throttle_mutex);
     return throttle;
   }
   int GetVehicleSpeed() {
     return vehicle_speed;
   }
   void SetBrake(int _i) {
-    const std::lock_guard<std::mutex> lock(brake_mutex);
+    const std::unique_lock lock(brake_mutex);
     brake = _i;
   }
   bool GetBrake() {
-    const std::lock_guard<std::mutex> lock(brake_mutex);
+    const std::shared_lock lock(brake_mutex);
     return brake;
   }
   void SetSpeed(float _delta) {
