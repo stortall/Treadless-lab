@@ -6,13 +6,16 @@
 #include "socketcan_cpp.h"
 #include "vCAN_Writer.hpp"
 #include "wh.cpp"
+#include <mutex>
 
 class Driveline {
  private:
   float engine_speed;
   float vehicle_speed;
   int throttle;
+  std::mutex throttle_mutex;
   bool brake;
+  std::mutex brake_mutex;
   int gear;
   float max_engine_speed;
   std::array<int, 5> ratio;
@@ -43,16 +46,25 @@ class Driveline {
       SetSpeed(-100);
     }
   }
-  void SetThrottle(unsigned int _value) { throttle = _value; }
-  int GetVehicleSpeed() { return vehicle_speed; }
-  void ToggleBrake() {
-    if (brake) {
-      brake = false;
-    } else {
-      brake = true;
-    }
+  void SetThrottle(unsigned int _value) {
+    const std::lock_guard<std::mutex> lock(throttle_mutex);
+    throttle = _value;
   }
-  void SetBrake(int i) { brake = i; }
+  int GetThrottle() {
+    const std::lock_guard<std::mutex> lock(throttle_mutex);
+    return throttle;
+  }
+  int GetVehicleSpeed() {
+    return vehicle_speed;
+  }
+  void SetBrake(int _i) {
+    const std::lock_guard<std::mutex> lock(brake_mutex);
+    brake = _i;
+  }
+  bool GetBrake() {
+    const std::lock_guard<std::mutex> lock(brake_mutex);
+    return brake;
+  }
   void SetSpeed(float _delta) {
     engine_speed = engine_speed + _delta;
     if (engine_speed < 1500) {
@@ -71,8 +83,8 @@ class Driveline {
     std::cout << "RPM:      " << (int)(engine_speed) << " rpm\r" << std::endl;
     std::cout << "Speed:    " << (int)vehicle_speed << " km/h\r" << std::endl;
     std::cout << "Gear:     " << gear + 1 << "\r" << std::endl;
-    std::cout << "Throttle: " << throttle << "\r" << std::endl;
-    std::cout << "Brake:    " << brake << "\r" << std::endl;
+    std::cout << "Throttle: " << GetThrottle() << "\r" << std::endl;
+    std::cout << "Brake:    " << GetBrake() << "\r" << std::endl;
   }
   bool GearUp() {
     bool ret = false;
@@ -121,13 +133,12 @@ void CanSend(Driveline * engine) {
 }
 
 int main() {
-  Driveline DL1 = Driveline();
+  Driveline DL1;
   std::thread DrivelineLoop(&Driveline::loop, &DL1);
   std::thread InputLoop(CanReader, &DL1);
   std::thread PrintLoop(CanSend, &DL1);
   DrivelineLoop.join();
   InputLoop.join();
   PrintLoop.join();
-
   return 0;
 }
