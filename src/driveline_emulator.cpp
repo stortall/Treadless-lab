@@ -1,10 +1,8 @@
 #include <ncurses.h>
-
 #include <array>
 #include <chrono>
 #include <iostream>
 #include <thread>
-
 #include "socketcan_cpp.h"
 #include "vCAN_Writer.hpp"
 #include "wh.cpp"
@@ -106,31 +104,30 @@ void CanReader(Driveline* engine) {
   }
   while (true) {
     scpp::CanFrame fr;
-
     if (sockat_can.read(fr) == scpp::STATUS_OK && fr.id == 123) {
       engine->SetThrottle(fr.data[0]);
       engine->SetBrake(fr.data[1]);
-
-      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
 }
-  void CanSend(Driveline * engine) {
-    WriterHandler wh = WriterHandler();
-    while (true) {
-      wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
-      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    }
-  }
 
-  int main() {
-    Driveline DL1 = Driveline();
-    std::thread DrivelineLoop(&Driveline::loop, &DL1);
-    std::thread InputLoop(CanReader, &DL1);
-    std::thread PrintLoop(CanSend, &DL1);
-    DrivelineLoop.join();
-    InputLoop.join();
-    PrintLoop.join();
-
-    return 0;
+void CanSend(Driveline * engine) {
+  WriterHandler wh = WriterHandler();
+  while (true) {
+    wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
+}
+
+int main() {
+  Driveline DL1 = Driveline();
+  std::thread DrivelineLoop(&Driveline::loop, &DL1);
+  std::thread InputLoop(CanReader, &DL1);
+  std::thread PrintLoop(CanSend, &DL1);
+  DrivelineLoop.join();
+  InputLoop.join();
+  PrintLoop.join();
+
+  return 0;
+}
