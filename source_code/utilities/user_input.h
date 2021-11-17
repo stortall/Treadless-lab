@@ -8,7 +8,7 @@
 typedef struct user_input_struct1
 {
     bool ignition = false;
-    uint8_t accelerator_pedal;
+    uint8_t accelerator_pedal = 0;
     
     
 }UserInputToEngine;
@@ -34,6 +34,7 @@ typedef struct user_input_struct3
 namespace programmer_input
 {
     bool simulation_running;
+    uint8_t padding =   4;
 }
 
 namespace gear_position
@@ -49,7 +50,35 @@ namespace gear_position
 
 namespace acceleration
 {
+    const uint8_t up = 10;
+    const uint8_t down = 10;
+    const uint8_t max = 100;
+    const uint8_t min = 0;
     
+}
+
+namespace braking
+{
+    const uint8_t up = 25;
+    const uint8_t down = 25;
+    const uint8_t max = 100;
+    const uint8_t min = 0;
+
+
+}
+
+/*namespace engine
+{
+    const float rpm_max = 6000;
+    const float rpm_min = 0;
+    
+}*/
+
+namespace enviornment
+{
+    const uint8_t positive_inclination;     //
+    const uint8_t negative_inclination;
+
 }
 
 
