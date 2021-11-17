@@ -2,11 +2,12 @@
 #define USER_INPUT_H
 #include <cstdint>
 #include <mutex>
+#include <array>
 
 
 typedef struct user_input_struct1
 {
-    bool ignition   : false;
+    bool ignition = false;
     uint8_t accelerator_pedal;
     
     
@@ -42,6 +43,7 @@ namespace gear_position
     const uint8_t N = 1;
     const uint8_t D = 2;
     const uint8_t R = 3;
+    std::array<int, 5> ratio({80, 60, 40, 30, 25});
 
 }
 
