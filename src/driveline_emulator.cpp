@@ -10,6 +10,7 @@
 
 class Driveline {
  private:
+  bool ignition;      
   float engine_speed;
   float vehicle_speed;
   int throttle;
@@ -20,7 +21,8 @@ class Driveline {
 
  public:
   Driveline()
-      : engine_speed(0),
+      : ignition(false),
+        engine_speed(0),
         vehicle_speed(0),
         throttle(0),
         brake(false),
@@ -28,13 +30,15 @@ class Driveline {
         max_engine_speed(6000),
         ratio({80, 60, 40, 30, 25}) {}
   void loop() {
-    while (true) {
+    
+    while (!ignition) {
       UpdateState();
       PrintState();
       std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
   }
   void UpdateState() {
+
     if (throttle > 0) {
       brake = false;
       SetSpeed(50);
@@ -51,6 +55,14 @@ class Driveline {
       brake = false;
     } else {
       brake = true;
+    }
+  }
+
+  void ToggleIgnition() {
+    if (ignition) {
+      ignition = true;
+    } else {
+      ignition = false;
     }
   }
   void SetSpeed(float _delta) {
