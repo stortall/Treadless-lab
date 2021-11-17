@@ -7,6 +7,7 @@
 
 #include "socketcan_cpp.h"
 #include "vCAN_Writer.hpp"
+#include "wh.cpp"
 
 class Driveline {
  private:
@@ -53,6 +54,7 @@ class Driveline {
       brake = true;
     }
   }
+  void SetBrake(int i) { brake = i; }
   void SetSpeed(float _delta) {
     engine_speed = engine_speed + _delta;
     if (engine_speed < 1500) {
@@ -68,8 +70,6 @@ class Driveline {
   }
   void PrintState() {
     system("clear");
-    // WriteToCAN(0, static_cast<int>(engine_speed));
-    // WriteToCAN(1,static_cast<int>(vehicle_speed));
     std::cout << "RPM:      " << (int)(engine_speed) << " rpm\r" << std::endl;
     std::cout << "Speed:    " << (int)vehicle_speed << " km/h\r" << std::endl;
     std::cout << "Gear:     " << gear + 1 << "\r" << std::endl;
@@ -96,7 +96,7 @@ class Driveline {
   }
 };
 
-void InputHandler(Driveline* engine) {
+void CanReader(Driveline* engine) {
   // init
   scpp::SocketCan sockat_can;
   if (sockat_can.open("vcan0") != scpp::STATUS_OK) {
@@ -106,60 +106,31 @@ void InputHandler(Driveline* engine) {
   }
   while (true) {
     scpp::CanFrame fr;
-    
-    if (sockat_can.read(fr) == scpp::STATUS_OK && fr.id==123) {
-      if (fr.data[0] == 1) {
-        engine->SetThrottle(1);
-      }
-      if (fr.data[0] == 0) {
-        engine->SetThrottle(0);
-      }
-      /* printf("len %d byte, id: %d, data: %02x %02x %02x %02x %02x %02x %02x
-         %02x  \n", fr.len, fr.id, fr.data[0], fr.data[1], fr.data[2],
-         fr.data[3], fr.data[4], fr.data[5], fr.data[6], fr.data[7]); */
+
+    if (sockat_can.read(fr) == scpp::STATUS_OK && fr.id == 123) {
+      engine->SetThrottle(fr.data[0]);
+      engine->SetBrake(fr.data[1]);
+
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-  }
-
-  /*  initscr();
-   cbreak();
-   noecho();
-   // keypad(stdscr, TRUE);
-   scrollok(stdscr, TRUE);
-   nodelay(stdscr, TRUE);
-   while (true) {
-       char in;
-       while ((in = getch()) == ERR) {}
-       if (in == '1') {
-           engine->SetThrottle(1);
-       }
-       else if (in == '0') {
-           engine->SetThrottle(0);
-       }
-       if (in == 'b') {
-           engine->SetThrottle(0);
-           engine->ToggleBrake();
-       }
-       while (getch() != ERR) {}
-       napms(100);
-   } */
-}
-
-void CanSend(Driveline* engine) {
-  while (true) {
-    WriteToCAN(4, static_cast<int>(engine->GetVehicleSpeed()));
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   }
 }
+  void CanSend(Driveline * engine) {
+    WriterHandler wh = WriterHandler();
+    while (true) {
+      wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+  }
 
-int main() {
-  Driveline DL1 = Driveline();
-  std::thread DrivelineLoop(&Driveline::loop, &DL1);
-  std::thread InputLoop(InputHandler, &DL1);
-  std::thread PrintLoop(CanSend, &DL1);
-  DrivelineLoop.join();
-  InputLoop.join();
+  int main() {
+    Driveline DL1 = Driveline();
+    std::thread DrivelineLoop(&Driveline::loop, &DL1);
+    std::thread InputLoop(CanReader, &DL1);
+    std::thread PrintLoop(CanSend, &DL1);
+    DrivelineLoop.join();
+    InputLoop.join();
     PrintLoop.join();
 
-  return 0;
-}
+    return 0;
+  }

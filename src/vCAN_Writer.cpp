@@ -5,7 +5,7 @@
 
 
 
-void WriteToCAN(int _id, int _value) {
+void WriteToCAN(int _id, int _value[]) {
     scpp::SocketCan sockat_can;
     if (sockat_can.open("vcan0") != scpp::STATUS_OK) {
         std::cout << "Cannot open vcan0." << std::endl;
@@ -15,14 +15,12 @@ void WriteToCAN(int _id, int _value) {
 
     scpp::CanFrame cf_to_write;
     
-    cf_to_write.id = 123;
+    cf_to_write.id =_id;
     cf_to_write.len = 8;
     for (int i = 0; i < 8; ++i) {
-        if (i == _id) {
-            cf_to_write.data[i] = _value;
-        } else {
-            cf_to_write.data[i] = 0;
-        }
+        
+            cf_to_write.data[i] = _value[i];
+        
     } 
     auto write_sc_status = sockat_can.write(cf_to_write);
     if (write_sc_status != scpp::STATUS_OK)

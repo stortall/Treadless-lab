@@ -1,7 +1,5 @@
 #include "ncurses.h"
 #include <iostream>
-#include "socketcan_cpp.h"
-#include "vCAN_Writer.hpp"
 #include "wh.cpp"
 
 
@@ -16,15 +14,11 @@ int main(){
     while (true) {
         char in;
         while ((in = getch()) == ERR) {}
-        if (in == '1') {
-            wh.SetThottle(1);
-        }
-        else if (in == '0') {
-            wh.SetThottle(0);
+        if (in >= '0' && in <= '9') {
+            wh.SetThrottle(in-'0');
         }
         if (in == 'b') {
-            /* engine->SetThrottle(0);
-            engine->ToggleBrake(); */
+           wh.ToggleBreak();
         }
         while (getch() != ERR) {}
         napms(100);

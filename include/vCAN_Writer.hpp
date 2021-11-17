@@ -6,6 +6,6 @@
 #include <thread>
 
 
-void WriteToCAN(int _id, int _value);
+void WriteToCAN(int _id, int _value[]);
 
 #endif
