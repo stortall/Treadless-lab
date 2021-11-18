@@ -5,7 +5,7 @@
 #include <thread>
 #include "socketcan_cpp.h"
 #include "vCAN_Writer.hpp"
-#include "wh.cpp"
+#include "wh.hpp"
 #include <mutex>
 #include <shared_mutex>
 
@@ -117,19 +117,19 @@ void CanReader(Driveline* engine) {
   }
   while (true) {
     scpp::CanFrame fr;
-    if (sockat_can.read(fr) == scpp::STATUS_OK && fr.id == 123) {
+    if (sockat_can.read(fr) == scpp::STATUS_OK && fr.id == 0x123) {
       engine->SetThrottle(fr.data[0]);
       engine->SetBrake(fr.data[1]);
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
   }
 }
 
 void CanSend(Driveline * engine) {
-  WriterHandler wh = WriterHandler();
+  WriteHandler wh = WriteHandler();
   while (true) {
     wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
   }
 }
 
