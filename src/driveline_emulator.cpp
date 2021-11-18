@@ -1,14 +1,9 @@
-#include <ncurses.h>
-#include <array>
-#include <chrono>
-#include <iostream>
-#include <thread>
+
 #include "socketcan_cpp.h"
 #include "vCAN_Writer.hpp"
 #include "wh.hpp"
-#include <mutex>
-#include <shared_mutex>
-
+#include  "driveline.hpp"
+/* 
 class Driveline {
  private:
   float engine_speed;
@@ -105,7 +100,7 @@ class Driveline {
     }
     return ret;
   }
-};
+}; */
 
 void CanReader(Driveline* engine) {
   // init
@@ -121,7 +116,7 @@ void CanReader(Driveline* engine) {
       engine->SetThrottle(fr.data[0]);
       engine->SetBrake(fr.data[1]);
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }
 
@@ -129,7 +124,7 @@ void CanSend(Driveline * engine) {
   WriteHandler wh = WriteHandler();
   while (true) {
     wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }
 
