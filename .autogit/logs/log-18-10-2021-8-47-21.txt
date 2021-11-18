@@ -1,0 +1,24 @@
+-------------------- Auto-Git Log --------------------
+		Thu Nov 18 2021 08:47:21 GMT+0100 (Central European Standard Time)
+------------------------------------------------------
+
+Modified files:
+* source_code/input_handler/src/input_handler_main.cpp
+
+
+Created files:
+* .autogit/logs/log-18-10-2021-8-17-15.txt
+
+
+Deleted files:
+* SDL2_Tutorials
+
+
+Renamed files:
+* [object Object]
+* [object Object]
+* [object Object]
+* [object Object]
+* [object Object]
+* [object Object]
+* [object Object]
