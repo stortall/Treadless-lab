@@ -15,7 +15,9 @@ typedef struct user_input_struct1
 
 typedef struct user_input_struct2
 {
-    uint8_t gear_position;
+    uint8_t gear_position   =   0;
+    const uint32_t msg_id;
+    const uint8_t msg_length;
 
 }UserInputToGearBox;
 
@@ -76,8 +78,10 @@ namespace braking
 
 namespace enviornment
 {
-    const uint8_t positive_inclination;     //
-    const uint8_t negative_inclination;
+    const uint8_t positive_inclination = 5;     // downhill
+    const uint8_t negative_inclination = 5;     // uphill
+    const uint8_t zero_inclination = 0;         // flat
+
 
 }
 
