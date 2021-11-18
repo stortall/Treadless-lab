@@ -19,8 +19,15 @@ int main()
         while((in = getch()) == ERR){
             if(in >= '0' && in <= '9')
             {
-                transmitter.Set
+                transmitter.SetThrottle(in-'0');
+
             }
+            if (in == 'b') 
+            {
+                transmitter.ToggleBreak();
+            }
+            while (getch() != ERR) {}
+            napms(100);
         }
     }
 
