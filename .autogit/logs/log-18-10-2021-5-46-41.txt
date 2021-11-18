@@ -1,0 +1,25 @@
+-------------------- Auto-Git Log --------------------
+		Thu Nov 18 2021 05:46:41 GMT+0100 (Central European Standard Time)
+------------------------------------------------------
+
+Modified files:
+* source_code/input_handler/CMakeLists.txt
+* source_code/input_handler/src/input_handler_main.cpp
+* source_code/utilities/user_input.h
+* src/wh.cpp
+
+
+Created files:
+* .autogit/autogit.json
+* source_code/utilities/can_encoder.h
+* source_code/utilities/can_transmitter_receiver/can_frame.h
+* source_code/utilities/can_transmitter_receiver/can_transmitter_receiver.cpp
+* source_code/utilities/can_transmitter_receiver/can_transmitter_receiver.h
+
+
+Deleted files:
+
+
+Renamed files:
+* [object Object]
+* [object Object]
