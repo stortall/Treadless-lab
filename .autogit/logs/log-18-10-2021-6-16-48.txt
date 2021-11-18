@@ -1,0 +1,17 @@
+-------------------- Auto-Git Log --------------------
+		Thu Nov 18 2021 06:16:48 GMT+0100 (Central European Standard Time)
+------------------------------------------------------
+
+Modified files:
+* source_code/utilities/can_transmitter_receiver/can_frame.h
+* source_code/utilities/can_transmitter_receiver/can_transmitter_receiver.cpp
+
+
+Created files:
+* .autogit/logs/log-18-10-2021-5-46-41.txt
+
+
+Deleted files:
+
+
+Renamed files:
