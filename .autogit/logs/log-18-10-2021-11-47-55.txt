@@ -1,0 +1,16 @@
+-------------------- Auto-Git Log --------------------
+		Thu Nov 18 2021 11:47:55 GMT+0100 (Central European Standard Time)
+------------------------------------------------------
+
+Modified files:
+* Src/InputHandler/CMakeLists.txt
+
+
+Created files:
+* .autogit/logs/log-18-10-2021-11-17-50.txt
+
+
+Deleted files:
+
+
+Renamed files:
