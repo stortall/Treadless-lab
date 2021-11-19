@@ -4,7 +4,7 @@
 #include "chrono"
 
 int main(){
-    WriteHandler wh = WriteHandler();
+    WriteHandler wh;
     initscr();
     cbreak();
     noecho();
