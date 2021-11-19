@@ -1,10 +1,10 @@
 #include "ncurses.h"
 #include <iostream>
-#include "wh.cpp"
-
+#include "wh.hpp"
+#include "chrono"
 
 int main(){
-    WriterHandler wh = WriterHandler();
+    WriteHandler wh;
     initscr();
     cbreak();
     noecho();
@@ -21,7 +21,7 @@ int main(){
            wh.ToggleBreak();
         }
         while (getch() != ERR) {}
-        napms(100);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
 

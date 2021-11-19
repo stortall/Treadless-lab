@@ -13,6 +13,7 @@ target_link_libraries(input -lncurses)
 
 add_executable(emu
 src/driveline_emulator.cpp
+src/driveline.cpp
 src/wh.cpp
 src/vCAN_Writer.cpp 
 src/socketcan_cpp.cpp )
