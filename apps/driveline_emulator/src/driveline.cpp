@@ -26,6 +26,9 @@ int Driveline::GetThrottle() {
   return throttle;
 }
 int Driveline::GetVehicleSpeed() { return vehicle_speed; }
+int Driveline::GetRPM(){return engine_speed;}
+int Driveline::GetGear(){return gear;}
+
 void Driveline::SetBrake(int _i) {
   const std::unique_lock lock(brake_mutex);
   brake = _i;

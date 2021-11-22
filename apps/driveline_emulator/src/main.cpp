@@ -26,7 +26,8 @@ void CanReader(Driveline* engine) {
 void CanSend(Driveline * engine) {
   WriteHandler wh;
   while (true) {
-    wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
+    //wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
+    wh.WriteEngineState(engine->GetVehicleSpeed(),(engine->GetRPM()/25),(engine->GetGear()+1));
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }

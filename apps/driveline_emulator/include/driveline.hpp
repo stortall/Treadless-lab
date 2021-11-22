@@ -36,6 +36,8 @@ class Driveline {
     int GetVehicleSpeed();
     void SetBrake(int _i);
     bool GetBrake();
+    int GetRPM();
+    int GetGear();
     void SetSpeed(float _delta);
     void PrintState();
     bool GearUp();

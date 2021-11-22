@@ -5,6 +5,7 @@
   void WriteHandler::SetThrottle(int _value) {
     value[0] = _value;
     value[1] = 0;
+    value[7] = 255;
     WriteToCAN(toEmuFromInput, value);
   }
   void WriteHandler::SetGear(int _value) {
@@ -23,6 +24,12 @@
   }
   void WriteHandler::WriteRPM(float _value) {}
   void WriteHandler::WriteVehicleSpeed(float _value) {
-    value[0] = _value;
+    // value[0] = _value;
+    // WriteToCAN(toICFromEmu, value);
+  }
+  void WriteHandler::WriteEngineState(float _vs, float _es, int _gear){
+    value[0]=_vs;
+    value[1]=_es;
+    value[2]=_gear;
     WriteToCAN(toICFromEmu, value);
   }
