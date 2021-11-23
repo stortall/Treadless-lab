@@ -8,7 +8,7 @@ class CanFrame
     int toEmuFromInput = 123;
     int toICFromInput= 333;
     int toICFromEmu = 321;
-   // friend class CanTransmitter;
+ 
 
 
 }can_frame_structure;
