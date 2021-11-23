@@ -3,7 +3,7 @@
 
 #include "user_input.h"
 
-const int NBR_TX_FRAMES = 2;
+
 
 typedef struct CanData_struct{
     uint32_t id = 0;
