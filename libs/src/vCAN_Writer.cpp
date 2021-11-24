@@ -25,7 +25,7 @@ void WriteToCAN(int _id, uint8_t _value[]) {
     auto write_sc_status = sockat_can.write(cf_to_write);
     if (write_sc_status != scpp::STATUS_OK)
         printf("something went wrong on socket write, error code : %d \n", int32_t(write_sc_status));
-    else
-        printf("Message was written to the socket \n");
+    // else
+        // printf("Message was written to the socket \n");
 
 }

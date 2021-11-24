@@ -18,6 +18,7 @@ void CanReader(Driveline* engine) {
     if (sockat_can.read(fr) == scpp::STATUS_OK && fr.id == 0x123) {
       engine->SetThrottle(fr.data[0]);
       engine->SetBrake(fr.data[1]);
+      engine->SetGearSelectorState(fr.data[3]);
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }

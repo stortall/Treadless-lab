@@ -7,6 +7,10 @@
 #include <mutex>
 #include <shared_mutex>
 #include <thread>
+#include <cmath>
+#include <algorithm> 
+#include <map>
+#include <string>
 
 class Driveline {
  private:
@@ -18,7 +22,10 @@ class Driveline {
   mutable std::shared_mutex brake_mutex;
   int gear;
   float max_engine_speed;
-  std::array<int, 5> ratio;
+  std::array<int, 6> ratio;
+  int resistance;
+  char GearSelectorState;
+  int idle_speed;
 
  public:
   Driveline() :
@@ -27,8 +34,10 @@ class Driveline {
     throttle(0),
     brake(false),
     gear(0),
-    max_engine_speed(6000),
-    ratio({80, 60, 40, 30, 25}) {}
+    max_engine_speed(7000),
+    ratio({0, 90, 60, 40, 30, 25}),
+    GearSelectorState('P') ,
+    idle_speed(800) {}
     void loop();
     void UpdateState();
     void SetThrottle(unsigned int _value);
@@ -38,10 +47,14 @@ class Driveline {
     bool GetBrake();
     int GetRPM();
     int GetGear();
-    void SetSpeed(float _delta);
+    void UpdateEngineSpeed(float _delta, bool _clutch_engaged = true);
     void PrintState();
     bool GearUp();
     bool GearDown();
+    void UpdateResistance();
+    int GetResistance();
+    void SetGearSelectorState(char _value);
+    char GetGearSelectorState();
 };
 
 #endif

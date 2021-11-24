@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "chrono"
 #include "ncurses.h"
 #include "wh.hpp"
@@ -21,6 +20,15 @@ int main() {
     }
     if (in == 'b') {
       wh.ToggleBreak();
+    }
+    if (in == 'p') {
+      wh.SetGearSelectorState('P');
+    }
+    if (in == 'n') {
+      wh.SetGearSelectorState('N');
+    }
+    if (in == 'd') {
+      wh.SetGearSelectorState('D');
     }
     if (in == 'h') {
       wh.ToggleHazard();
