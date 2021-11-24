@@ -49,6 +49,7 @@ public:
     /** Set Text on the Screen **/
     inline void setTXT(const QString &_s) {ValueSource->setProperty("txt",QVariant(_s));}
 
+
 private:
     QObject *ValueSource;
     void checkHazard(const _icons *_i);
