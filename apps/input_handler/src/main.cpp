@@ -20,6 +20,18 @@ int main(){
         if (in == 'b') {
            wh.ToggleBreak();
         }
+        if (in == 'p') {
+           wh.SetGearSelectorState('P');
+        }
+      //   if (in == 'r') {
+      //      wh.SetGearSelectorState('R');
+      //   }
+        if (in == 'n') {
+           wh.SetGearSelectorState('N');
+        }
+        if (in == 'd') {
+           wh.SetGearSelectorState('D');
+        }
         while (getch() != ERR) {}
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }

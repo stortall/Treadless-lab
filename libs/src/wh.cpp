@@ -8,8 +8,8 @@
     value[7] = 255;
     WriteToCAN(toEmuFromInput, value);
   }
-  void WriteHandler::SetGear(int _value) {
-    value[2] = _value;
+  void WriteHandler::SetGearSelectorState(char _value) {
+    value[3] = _value;
     WriteToCAN(toEmuFromInput, value);
   }
   void WriteHandler::ToggleBreak() {
