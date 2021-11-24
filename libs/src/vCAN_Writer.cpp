@@ -5,7 +5,7 @@
 
 
 
-void WriteToCAN(int _id, int _value[]) {
+void WriteToCAN(int _id, uint8_t _value[]) {
     scpp::SocketCan sockat_can;
     if (sockat_can.open("vcan0") != scpp::STATUS_OK) {
         std::cout << "Cannot open vcan0." << std::endl;
