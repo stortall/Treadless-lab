@@ -3,20 +3,24 @@
 #include <QtCore/QObject>
 #include <QtCore/QVariant>
 
-struct _icons {
-    unsigned short hazard : 1;
-    unsigned short right_blinker : 1;
-    unsigned short left_blinker : 1;
-    unsigned short engine_check : 1;
-    unsigned short oil_check : 1;
-    unsigned short abs : 1;
-    unsigned short battery : 1;
-    unsigned short seat_belt : 1;
-    unsigned short doors_open : 1;
-    unsigned short high_beam : 1;
-    unsigned short hand_break : 1;
-    unsigned short _reserved_pad : 5;
-}__attribute__((packed));
+typedef union _icons {
+  struct __attribute__((packed)) _bits {
+    unsigned char  hazard : 1;
+    unsigned char  right_blinker : 1;
+    unsigned char  left_blinker : 1;
+    unsigned char  engine_check : 1;
+    unsigned char  oil_check : 1;
+    unsigned char  abs : 1;
+    unsigned char  battery : 1;
+    unsigned char  seat_belt : 1;
+    unsigned char  doors_open : 1;
+    unsigned char  high_beam : 1;
+    unsigned char  hand_break : 1;
+    unsigned char  _reserved_pad : 5;
+    unsigned char  res_pad_2 [6];
+  } Bits;
+  uint8_t Data[8];
+} Iconss_t;
 
 class ClusterUpdater/* : public QObject*/ {
 //    Q_OBJECT

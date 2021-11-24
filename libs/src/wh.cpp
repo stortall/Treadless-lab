@@ -43,9 +43,9 @@ void WriteHandler::ToggleHazard() {
 
 void WriteHandler::ToggleABS() {
   if (icons.Bits.abs == 1) {
-    icons.Bits.abs == 0;
+    icons.Bits.abs = 0;
   } else {
-    icons.Bits.abs == 1;
+    icons.Bits.abs = 1;
   }
   WriteToCAN(toICFromInput, icons.Data);
 }

@@ -8,8 +8,8 @@
 namespace CANID
 {
     const canid_t TO_IC_FROM_EMU = 0x321;
-    const canid_t TO_IC_FROM_INPUT = 0x333;
-    const canid_t example =0x123;
+    const canid_t TO_IC_FROM_INPUT = 0x123;
+    const canid_t ICONS =0x333;
 
     //int toEmuFromInput = 0x123;
 }// namespace CANID
@@ -18,72 +18,94 @@ namespace CANID
 void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     switch (_frame->can_id) {
     case CANID::TO_IC_FROM_EMU: {
-            const struct CAN::MSG::_engine *d = reinterpret_cast<const struct CAN::MSG::_engine * >((_frame->data));
+            //const struct CAN::MSG::_engine *d = reinterpret_cast<const struct CAN::MSG::_engine * >((_frame->data));
 
         this->InstrumentCluster.setSpeed(_frame->data[0]);
         QString accbrakegear = "Speed: " + QString::number(_frame->data[0],10) + "%\n"
-                               "RPM: " + QString::number(_frame->data[1],16) + "\n"
+                               "brake: " + QString::number(_frame->data[1],16) + "\n"
                                "Gear:"   + QString::number(_frame->data[2],16)+ "\n";
 
-         //QString vcan0 = "vcan0: " + QString::number(_frame->data[0],16) + ""
-        //                        " " + QString::number(_frame->data[1],16) + "\t"
-        //                     //    ""   + QString::number(_frame->data[3],16)+ "\t"
-        //                     //    ""   + QString::number(_frame->data[4],16)+ "\t"
-        //                     //    ""   + QString::number(_frame->data[5],16)+ "\t"
-        //                     //    ""   + QString::number(_frame->data[6],16)+ "\t"
-        //                     //    ""   + QString::number(_frame->data[7],16)+ "\t"
-        //                        ""   + QString::number(_frame->data[8],16)+ "\t";
-        ;
-        //QByteArray hex =  QByteArray::fromHex(accbrakegear);
-        //QString str2 = QString::fromUtf16((char16_t*)hex.data());
-        //QByteArray text = QByteArray::fromHex(_frame->data[0]);
-           //this->InstrumentCluster.setTXT(text.data());// returns "Qt is great!"  
-        //(ss <<(_frame->data[0])) ;
-        // (ss1 <<(_frame->data[1])) ;
-        // (ss2 <<(_frame->data[2])) ;
-        // std::string accbrakegear = "Speed: " + ss.str() + "%\n"
-        //                        "Brake: " +ss1.str() + "%\n"
-        //                        "Gear:" +ss2.str()+ "%\n";
         this->InstrumentCluster.setTXT(accbrakegear);
-        //this->InstrumentCluster.setTXT(vcan0);
-
         this->InstrumentCluster.setRPM((_frame->data[1])*25);
         this->InstrumentCluster.setGear(_frame->data[2]);
+        this->InstrumentCluster.setGearPindle_int(_frame->data[2]);
 
-        // const struct CAN::MSG::Gauges_t::_inner* s =
-        //         reinterpret_cast<const struct CAN::MSG::Gauges_t::_inner* >((_frame->data));
-        // this->InstrumentCluster.setFuelGauges(s->G_FUEL);
-        // this->InstrumentCluster.setTemperatureGauges(s->G_TEMP);
-        // this->InstrumentCluster.setOilTemperatureGauges(s->G_OILT);
+
         break;
     }
-    case CANID::TO_IC_FROM_INPUT:{
-        struct _icons  p;//= reinterpret_cast<struct _icons * >((_frame->data));
-        static bool once = false;
+    case CANID::ICONS: {
+       //struct _icons  p//= reinterpret_cast<struct _icons * >(_frame->data);
+       Iconss_t icn;
+       icn.Data[0]=_frame->data[0];
+       icn.Data[1]=_frame->data[1];
+       
+    static bool once = false;
+    if (!once) {
+        icn.Bits.hazard=1;
+        //     p.hazard = 1;
+             once = true;
+         } else{
+             //icons.hazard = _frame->data[0] >> 0 & 1;
+             icn.Bits.hazard=0;
+         }
+        
+           //p.hazard = 0;
+    //icons.hazard = _frame->data[0] >> 0 & 1;
+    //  icons.right_blinker = _frame->data[0] >> 1 & 1;
+    // icons.left_blinker = _frame->data[0] >> 2 & 1;
+    // icons.engine_check = _frame->data[0] >> 3 & 1;
+    // icons.oil_check = _frame->data[0] >> 4 & 1;
+    // icons.abs = _frame->data[0] >> 5 & 1;
+    // icons.battery = _frame->data[0] >> 6 & 1;
+    // icons.seat_belt = _frame->data[1] >> 7 & 1;
 
-        if (!once) {
-            p.hazard = 1;
-            once = true;
-        } else
-            p.hazard = 0;
+    // icons.doors_open = _frame->data[1] >> 0 & 1;
+    // icons.high_beam = _frame->data[1] >> 1 & 1;
+    // icons.hand_break = _frame->data[1] >> 2 & 1;
+    //icn.Bits.right_blinker =
+
+    this->InstrumentCluster.setIcon(&icn);
+        
+        
+        
+            // this->InstrumentCluster.setIcon(&p);
+
+        
+        //SetIcons(_frame->data[0],_frame->data[1]);
+
+
+    //      if(_frame->data[0]==4)
+    // {
+    //     //icons.hazard = _frame->data[0] >> 0 & 1;
+    // }   
+    //this->InstrumentCluster.setIcon(&icons);
+
+        // static bool once = false;
+
+        // if (!once) {
+        //     p.hazard = 1;
+        //     once = true;
+        // } else
+        //    p.hazard = 0;
         // QString pp = "icon1: " + QString::number(p) + "%\n"
         //                        "icon2: " + QString::number(p) + "%\n"
         //                        "icon3:" +QString::number(p)+ "%\n";
         // this->InstrumentCluster.setTXT(pp);
-        this->InstrumentCluster.setIcon(&p);
+        //this->InstrumentCluster.setIcon(&p);
+        //this->InstrumentCluster.setIcon(&p);
 
         break;
     }
 //    case CANID::example:{
-//       // const struct CAN::MSG::_userin *d = reinterpret_cast<const struct CAN::MSG::_userin * >((_frame->data));
-//       // this->InstrumentCluster.ignite(d->IGNT);
+//       const struct CAN::MSG::_userin *d = reinterpret_cast<const struct CAN::MSG::_userin * >((_frame->data));
+//       this->InstrumentCluster.ignite(d->IGNT);
 //    }
-       break;
+//       break;
 
-    // case CANID::TO_IC_FROM_INPUT {
-    //     const struct CAN::MSG::Gearbx_t::_bits *d = reinterpret_cast<const struct CAN::MSG::Gearbx_t::_bits * >((_frame->data));
-    //     //this->InstrumentCluster.setGearPindle_int(d->GEAR_P);
-    //     this->InstrumentCluster.setGear(_frame->data[2]);
+    // case CANID::TO_IC_FROM_EMU {
+    //     //const struct CAN::MSG::Gearbx_t::_bits *d = reinterpret_cast<const struct CAN::MSG::Gearbx_t::_bits * >((_frame->data));
+    //     this->InstrumentCluster.setGearPindle_int(frame->data[2]);
+    //     //this->InstrumentCluster.setGear(_frame->data[2]);
     // }
     //    break;
     //case CAN::MSG::ENGINE_ID: {
@@ -97,6 +119,13 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     default:
         break;
     }
+
+}
+
+void yourStuff::SetIcons(uint8_t data1,uint8_t data2)
+{
+    
+
 
 }
 
