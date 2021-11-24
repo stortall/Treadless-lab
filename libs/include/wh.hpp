@@ -46,6 +46,7 @@ class WriteHandler {
   void WriteRPM(float _value);
   void WriteVehicleSpeed(float _value);
   void WriteEngineState(float _vs, float _es, int _gear);
+<<<<<<< Updated upstream
   void ToggleHazard();
   void ToggleHighBeam();
   void ToggleABS();
@@ -58,5 +59,8 @@ class WriteHandler {
   void ToggleLeftBlinker();
   void ToggleRightBlinker();
 
+=======
+  void WriteIcons();
+>>>>>>> Stashed changes
 };
 #endif

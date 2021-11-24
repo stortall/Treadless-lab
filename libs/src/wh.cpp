@@ -128,5 +128,39 @@ void WriteHandler::ToggleBattery() {
   } else {
     icons.Bits.battery = 1;
   }
+<<<<<<< Updated upstream
   WriteToCAN(toICFromInput, icons.Data);
 }
+=======
+  void WriteHandler::ToggleBreak() {
+    if (value[1] == 0) {
+      value[1] = 1;
+      value[0] = 0;  // turn off throttle
+      WriteToCAN(toEmuFromInput, value);
+    } else if (value[1] == 1) {
+      value[1] = 0;
+      WriteToCAN(toEmuFromInput, value);
+    }
+  }
+  void WriteHandler::WriteRPM(float _value) {}
+  void WriteHandler::WriteVehicleSpeed(float _value) {
+    // value[0] = _value;
+    // WriteToCAN(toICFromEmu, value);
+  }
+  void WriteHandler::WriteEngineState(float _vs, float _es, int _gear){
+    value[0]=_vs;
+    value[1]=_es;
+    value[2]=_gear;
+    WriteToCAN(toICFromEmu, value);
+  }
+  void WriteHandler::WriteIcons(){
+    if (value[3] == 0) {
+      value[3] = 1;
+      WriteToCAN(toICFromInput,value);}
+    else if (value[1] == 1) {
+      value[3] = 0;
+      WriteToCAN(toEmuFromInput,value);
+    }
+    
+  }
+>>>>>>> Stashed changes
