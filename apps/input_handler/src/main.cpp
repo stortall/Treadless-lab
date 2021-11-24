@@ -1,28 +1,59 @@
-#include "ncurses.h"
 #include <iostream>
-#include "wh.hpp"
+
 #include "chrono"
+#include "ncurses.h"
+#include "wh.hpp"
 
-int main(){
-    WriteHandler wh;
-    initscr();
-    cbreak();
-    noecho();
-    // keypad(stdscr, TRUE);
-    scrollok(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-    while (true) {
-        char in;
-        while ((in = getch()) == ERR) {}
-        if (in >= '0' && in <= '9') {
-            wh.SetThrottle(in-'0');
-        }
-        if (in == 'b') {
-           wh.ToggleBreak();
-        }
-        while (getch() != ERR) {}
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+int main() {
+  WriteHandler wh;
+  initscr();
+  cbreak();
+  noecho();
+  // keypad(stdscr, TRUE);
+  scrollok(stdscr, TRUE);
+  nodelay(stdscr, TRUE);
+  while (true) {
+    char in;
+    while ((in = getch()) == ERR) {
     }
-
-
+    if (in >= '0' && in <= '9') {
+      wh.SetThrottle(in - '0');
+    }
+    if (in == 'b') {
+      wh.ToggleBreak();
+    }
+    if (in == 'h') {
+      wh.ToggleHazard();
+    }
+    if (in == 'o') {
+      wh.ToggleOilCheck();
+    }
+    if (in == 'a') {
+      wh.ToggleABS();
+    }
+    if (in == 'l') {
+      wh.ToggleHighBeam();
+    }
+    if (in == 'z') {
+      wh.ToggleSeatBelt();
+    }
+    if (in == 'c') {
+      wh.ToggleEngineCheck();
+    }
+    if (in == 'y') {
+      wh.ToggleLeftBlinker();
+    }
+    if (in == 'u') {
+      wh.ToggleRightBlinker();
+    }
+    if (in == 'x') {
+      wh.ToggleDoorsOpen();
+    }
+    if (in == 'q') {
+      wh.ToggleBattery();
+    }
+    while (getch() != ERR) {
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+  }
 }
