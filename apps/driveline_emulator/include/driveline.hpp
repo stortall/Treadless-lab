@@ -34,7 +34,7 @@ class Driveline {
     throttle(0),
     brake(false),
     gear(0),
-    max_engine_speed(7000),
+    max_engine_speed(6300),
     ratio({0, 90, 60, 40, 30, 25}),
     GearSelectorState('P') ,
     idle_speed(800) {}

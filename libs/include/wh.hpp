@@ -45,7 +45,7 @@ class WriteHandler {
   void SetGearSelectorState(char _value);
   void WriteRPM(float _value);
   void WriteVehicleSpeed(float _value);
-  void WriteEngineState(float _vs, float _es, int _gear);
+  void WriteEngineState(float _vs, float _es, int _gear, char gear_shifter_state);
   void ToggleHazard();
   void ToggleHighBeam();
   void ToggleABS();
