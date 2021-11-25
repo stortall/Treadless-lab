@@ -53,8 +53,8 @@ import QtQuick 2.2
 
 Item {
     id: valueSource
-//    property bool mphDisplay: true
-//    property real speedScaling: mphDisplay == true ? 0.621 : 1.0
+    //property bool mphDisplay: false
+    //property real speedScaling: mphDisplay == true ? 0.621 : 1.0
     property real kph: 0
     property real rpm: rpmHezar/1000
     property real rpmHezar: 0
