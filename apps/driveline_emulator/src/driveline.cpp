@@ -57,17 +57,17 @@ void Driveline::UpdateEngineSpeed(float _delta, bool _clutch_engaged) {
   if (!_clutch_engaged && engine_speed >= idle_speed) {
     engine_speed = engine_speed - (_delta * 3);
   }
-  if (engine_speed < 1500) {
+  if (engine_speed < 2000) {
     if (!GearDown() && engine_speed < 0) {
       engine_speed = 0;
     }
-  } else if (engine_speed > 4000 && gear > 0) {
+  } else if (engine_speed > 4500 && gear > 0) {
     if (!GearUp() && engine_speed > max_engine_speed) {
       engine_speed = max_engine_speed;
     }
   } else if (gear == 0) {
     if (engine_speed > max_engine_speed) {
-      engine_speed = max_engine_speed;
+      engine_speed = max_engine_speed-100;
     }
   }
   if (_clutch_engaged && gear > 0) {
