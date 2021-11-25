@@ -30,7 +30,7 @@ void CanSend(Driveline * engine) {
     //wh.WriteVehicleSpeed(engine->GetVehicleSpeed());
 
     wh.WriteEngineState(engine->GetVehicleSpeed(), (engine->GetRPM()/25),
-      std::max(engine->GetGear(), 1), engine->GetGearSelectorState());
+      std::max(engine->GetGear(), 1), engine->GetGearSelectorState(), engine->GetResistance());
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }

@@ -20,7 +20,7 @@ typedef union _icons {
     unsigned char  _reserved_pad : 5;
     unsigned char  res_pad_2 [6];
   } Bits;
-  uint8_t Data[8];
+  uint8_t Data[8]{0, 0, 0, 0, 0, 0, 0, 0};
 } Iconss_t;
 
 class WriteHandler {
@@ -35,9 +35,7 @@ class WriteHandler {
   int toICFromEmu = 0x321;
 
  public:
-  WriteHandler() {
-    std::memset(&icons,0, sizeof (Iconss_t));
-    
+  WriteHandler() {  
   }
 
   void ToggleBreak();
@@ -45,7 +43,7 @@ class WriteHandler {
   void SetGearSelectorState(char _value);
   void WriteRPM(float _value);
   void WriteVehicleSpeed(float _value);
-  void WriteEngineState(float _vs, float _es, int _gear, char gear_shifter_state);
+  void WriteEngineState(float _vs, float _es, int _gear, char gear_shifter_state, int _res);
   void ToggleHazard();
   void ToggleHighBeam();
   void ToggleABS();

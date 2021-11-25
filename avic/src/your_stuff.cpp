@@ -20,10 +20,10 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
             //const struct CAN::MSG::_engine *d = reinterpret_cast<const struct CAN::MSG::_engine * >((_frame->data));
 
         this->InstrumentCluster.setSpeed(_frame->data[0]);
-        QString accbrakegear = "Speed: " + QString::number(_frame->data[0],10) + "%\n"
+        QString accbrakegear = /* "Speed: " + QString::number(_frame->data[0],10) + "\n"
                                "brake: " + QString::number(_frame->data[1],16) + "\n"
-                               "Gear:"   + QString::number(_frame->data[2],16)+ "\n";
-
+                               "Gear:"   + QString::number(_frame->data[2],16)+ "\n" */
+                            "Resistance:" + QString::number(_frame->data[4],10)+ "\n";
         this->InstrumentCluster.setTXT(accbrakegear);
         this->InstrumentCluster.setRPM((_frame->data[1])*25);
         this->InstrumentCluster.setGear(_frame->data[2]);
