@@ -17,7 +17,7 @@ Install the below packages (apt install):
 
 
 ## For execution 
-`./Sripts/execute.sh rebuild`  
+`./Scripts/execute.sh rebuild`  
 
 This will open 3 terminals ,input ,emu and cluster.Give keys in input cluster with input mapping:
 1. press b on keyboard for brake.
