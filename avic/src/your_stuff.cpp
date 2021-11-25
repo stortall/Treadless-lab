@@ -4,6 +4,7 @@
 #include "your_stuff.h"
 #include "can_common.h"
 #include <sstream>
+#include <typeinfo>
 
 namespace CANID
 {
@@ -26,7 +27,17 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         this->InstrumentCluster.setTXT(accbrakegear);
         this->InstrumentCluster.setRPM((_frame->data[1])*25);
         this->InstrumentCluster.setGear(_frame->data[2]);
-        this->InstrumentCluster.setGearPindle_int(_frame->data[2]);
+
+        // this->InstrumentCluster.setGearPindle_char(_frame->data[3]);
+        int gear_shifter_state = 0;
+        if (_frame->data[3] == 'P') {
+            gear_shifter_state = 0;
+        } else if (_frame->data[3] == 'N') {
+            gear_shifter_state = 1;
+        } else if (_frame->data[3] == 'D') {
+            gear_shifter_state = 3;
+        }
+        this->InstrumentCluster.setGearPindle_int(gear_shifter_state);
 
 
         break;

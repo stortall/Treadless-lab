@@ -6,8 +6,8 @@ void WriteHandler::SetThrottle(int _value) {
 
   WriteToCAN(toEmuFromInput, value);
 }
-void WriteHandler::SetGear(int _value) {
-  value[2] = _value;
+void WriteHandler::SetGearSelectorState(char _value) {
+  value[3] = _value;
   WriteToCAN(toEmuFromInput, value);
 }
 void WriteHandler::ToggleBreak() {
@@ -25,10 +25,11 @@ void WriteHandler::WriteVehicleSpeed(float _value) {
   // value[0] = _value;
   // WriteToCAN(toICFromEmu, value);
 }
-void WriteHandler::WriteEngineState(float _vs, float _es, int _gear) {
+void WriteHandler::WriteEngineState(float _vs, float _es, int _gear, char _gear_shifter_state) {
   value[0] = _vs;
   value[1] = _es;
   value[2] = _gear;
+  value[3] = _gear_shifter_state;
   WriteToCAN(toICFromEmu, value);
 }
 void WriteHandler::ToggleHazard() {
