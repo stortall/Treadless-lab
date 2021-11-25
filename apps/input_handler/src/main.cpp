@@ -14,7 +14,7 @@ int main() {
   while (true) {
     char in;
     while ((in = getch()) == ERR) {
-    }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));}
     if (in >= '0' && in <= '9') {
       wh.SetThrottle(in - '0');
     }
