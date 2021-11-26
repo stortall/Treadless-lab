@@ -133,5 +133,7 @@ void WriteHandler::ToggleBattery() {
   WriteToCAN(toICFromInput, icons.Data);
 }
 void WriteHandler::SendShutOff(){
-
+  printf("in shutoff");
+  value[4] = 255;
+  WriteToCAN(toEmuFromInput,value);
 }

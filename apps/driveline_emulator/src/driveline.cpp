@@ -1,7 +1,7 @@
 #include "driveline.hpp"
 
 void Driveline::loop() {
-  while (true) {
+  while (run) {
     Driveline::UpdateResistance();
     Driveline::UpdateState();
     Driveline::PrintState();
@@ -141,4 +141,13 @@ void Driveline::SetGearSelectorState(char _value) {
 }
 char Driveline::GetGearSelectorState() {
   return GearSelectorState;
+}
+
+bool Driveline::AppIsRunning(){
+  return run;
+}
+void Driveline::ShutOffApp(int b){
+  if(b==255){
+    run = false;
+  }
 }

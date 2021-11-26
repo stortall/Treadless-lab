@@ -48,7 +48,7 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
        icn.Data[0]=_frame->data[0];
        icn.Data[1]=_frame->data[1];
        
-    static bool once = false;
+  /*   static bool once = false;
     if (!once) {
         icn.Bits.hazard=1;
         //     p.hazard = 1;
@@ -57,7 +57,7 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
              //icons.hazard = _frame->data[0] >> 0 & 1;
              icn.Bits.hazard=0;
          }
-
+ */
     this->InstrumentCluster.setIcon(&icn);
 
 
@@ -88,11 +88,15 @@ bool yourStuff::run() {
     /*while*/if (status == CANOpener::ReadStatus::OK) {
         this->YouHaveJustRecievedACANFrame(&frame);
     }
+    if(frame.can_id==0x123 && frame.data[4]==255){
+        ret = false;
+    }
     if (status == CANOpener::ReadStatus::ERROR) ret = false;
     else if (status == CANOpener::ReadStatus::NAVAL ||
              status == CANOpener::ReadStatus::ENDOF) this->Counter++;
     else   this->Counter = 0;
     //if (this->Counter > 200) ret = false;
+    
     return ret;
 }
 

@@ -26,6 +26,7 @@ class Driveline {
   int resistance;
   char GearSelectorState;
   int idle_speed;
+  bool run;
 
  public:
   Driveline() :
@@ -34,6 +35,7 @@ class Driveline {
     throttle(0),
     brake(false),
     gear(0),
+    run(true),
     max_engine_speed(6300),
     ratio({0, 90, 60, 40, 30, 25}),
     GearSelectorState('P') ,
@@ -55,6 +57,8 @@ class Driveline {
     int GetResistance();
     void SetGearSelectorState(char _value);
     char GetGearSelectorState();
+    bool AppIsRunning();
+    void ShutOffApp(int b);
 };
 
 #endif
