@@ -18,6 +18,7 @@ WriteHandler wh;
 class InputReader{
 public:
     char input;
+    bool on;
 public:
     InputReader(){
         initscr();
@@ -26,7 +27,7 @@ public:
         // keypad(stdscr, TRUE);
         scrollok(stdscr, TRUE);
         nodelay(stdscr, TRUE);
-
+        on = true;
     }
 
     void readInput(){
@@ -77,6 +78,11 @@ public:
     }
     if (in == 'q') {
       wh.ToggleBattery();
+    }
+    if (in == 27){
+      wh.SendShutOff();
+      std::this_thread::sleep_for(std::chrono::milliseconds(500));
+      on = false;
     }
     while (getch() != ERR) {
     }
