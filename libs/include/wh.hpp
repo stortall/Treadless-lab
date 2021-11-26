@@ -55,6 +55,7 @@ class WriteHandler {
   void ToggleOilCheck();
   void ToggleLeftBlinker();
   void ToggleRightBlinker();
+  void SendShutOff();
 
 };
 #endif

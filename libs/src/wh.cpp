@@ -132,3 +132,6 @@ void WriteHandler::ToggleBattery() {
   }
   WriteToCAN(toICFromInput, icons.Data);
 }
+void WriteHandler::SendShutOff(){
+
+}
