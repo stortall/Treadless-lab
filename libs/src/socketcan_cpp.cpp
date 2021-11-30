@@ -58,7 +58,7 @@ namespace scpp
         m_socket_mode = mode;
         m_read_timeout_ms = read_timeout_ms;
 
-
+        std::cout << "open socket" << std::endl;
         /* open socket */
         if ((m_socket = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) 
         {

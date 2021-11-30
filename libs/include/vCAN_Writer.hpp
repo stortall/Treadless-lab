@@ -5,7 +5,12 @@
 #include <chrono>
 #include <thread>
 
-
-void WriteToCAN(int _id, uint8_t _value[]);
+class VCANWriter {
+ private:
+    scpp::SocketCan sockat_can;
+ public:
+    VCANWriter();
+    void WriteToCAN(int _id, uint8_t _value[]);
+};
 
 #endif
