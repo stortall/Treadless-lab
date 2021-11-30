@@ -26,18 +26,14 @@ typedef union _icons {
 class WriteHandler {
  private:
   uint8_t value[8]{0, 0, 0, 0, 0, 0, 0, 0};
-  
   Iconss_t icons;
-  
-  
   int toEmuFromInput = 0x123;
   int toICFromInput = 0x333;
   int toICFromEmu = 0x321;
+  VCANWriter vcw;
 
  public:
-  WriteHandler() {  
-  }
-
+  WriteHandler();
   void ToggleBreak();
   void SetThrottle(int _value);
   void SetGearSelectorState(char _value);

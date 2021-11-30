@@ -143,11 +143,11 @@ char Driveline::GetGearSelectorState() {
   return GearSelectorState;
 }
 
-bool Driveline::AppIsRunning(){
+bool Driveline::AppIsRunning() {
   return run;
 }
-void Driveline::ShutOffApp(int b){
-  if(b==255){
+void Driveline::ShutOffApp(int b) {
+  if (b == 255) {
     run = false;
   }
 }

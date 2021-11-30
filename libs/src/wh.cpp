@@ -1,23 +1,25 @@
 #include "wh.hpp"
 
+WriteHandler::WriteHandler() {}
+
 void WriteHandler::SetThrottle(int _value) {
   value[0] = _value;
   value[1] = 0;
 
-  WriteToCAN(toEmuFromInput, value);
+  vcw.WriteToCAN(toEmuFromInput, value);
 }
 void WriteHandler::SetGearSelectorState(char _value) {
   value[3] = _value;
-  WriteToCAN(toEmuFromInput, value);
+  vcw.WriteToCAN(toEmuFromInput, value);
 }
 void WriteHandler::ToggleBreak() {
   if (value[1] == 0) {
     value[1] = 1;
     value[0] = 0;  // turn off throttle
-    WriteToCAN(toEmuFromInput, value);
+    vcw.WriteToCAN(toEmuFromInput, value);
   } else if (value[1] == 1) {
     value[1] = 0;
-    WriteToCAN(toEmuFromInput, value);
+    vcw.WriteToCAN(toEmuFromInput, value);
   }
 }
 void WriteHandler::WriteRPM(float _value) {}
@@ -31,7 +33,7 @@ void WriteHandler::WriteEngineState(float _vs, float _es, int _gear, char _gear_
   value[2] = _gear;
   value[3] = _gear_shifter_state;
   value[4] = _res;
-  WriteToCAN(toICFromEmu, value);
+  vcw.WriteToCAN(toICFromEmu, value);
 }
 void WriteHandler::ToggleHazard() {
   if (icons.Bits.hazard == 1) {
@@ -40,7 +42,7 @@ void WriteHandler::ToggleHazard() {
     icons.Bits.hazard = 1;
   }
 
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleABS() {
@@ -49,7 +51,7 @@ void WriteHandler::ToggleABS() {
   } else {
     icons.Bits.abs = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleDoorsOpen() {
@@ -58,7 +60,7 @@ void WriteHandler::ToggleDoorsOpen() {
   } else {
     icons.Bits.doors_open = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleEngineCheck() {
@@ -67,7 +69,7 @@ void WriteHandler::ToggleEngineCheck() {
   } else {
     icons.Bits.engine_check = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleHandBrake() {
@@ -76,7 +78,7 @@ void WriteHandler::ToggleHandBrake() {
   } else {
     icons.Bits.hand_break = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleHighBeam() {
@@ -85,7 +87,7 @@ void WriteHandler::ToggleHighBeam() {
   } else {
     icons.Bits.high_beam = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleLeftBlinker() {
@@ -94,7 +96,7 @@ void WriteHandler::ToggleLeftBlinker() {
   } else {
     icons.Bits.left_blinker = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleRightBlinker() {
@@ -103,7 +105,7 @@ void WriteHandler::ToggleRightBlinker() {
   } else {
     icons.Bits.right_blinker = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleOilCheck() {
@@ -112,7 +114,7 @@ void WriteHandler::ToggleOilCheck() {
   } else {
     icons.Bits.oil_check = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleSeatBelt() {
@@ -121,7 +123,7 @@ void WriteHandler::ToggleSeatBelt() {
   } else {
     icons.Bits.seat_belt = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
 
 void WriteHandler::ToggleBattery() {
@@ -130,10 +132,10 @@ void WriteHandler::ToggleBattery() {
   } else {
     icons.Bits.battery = 1;
   }
-  WriteToCAN(toICFromInput, icons.Data);
+  vcw.WriteToCAN(toICFromInput, icons.Data);
 }
-void WriteHandler::SendShutOff(){
+void WriteHandler::SendShutOff() {
   printf("in shutoff");
   value[4] = 255;
-  WriteToCAN(toEmuFromInput,value);
+  vcw.WriteToCAN(toEmuFromInput, value);
 }
