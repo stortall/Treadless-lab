@@ -11,9 +11,12 @@ void Driveline::loop() {
 void Driveline::UpdateState() {
   if (GetGearSelectorState() == 'N' ||
     GetGearSelectorState() == 'D') {
-    if (throttle > 0) {
+    if (throttle > 0 && gear > 0) {
       brake = false;
-      UpdateEngineSpeed(100 - resistance);
+      UpdateEngineSpeed(370 * ratio[gear] / ratio[1] - resistance);
+    } else if (throttle > 0 && gear == 0) {
+      brake = false;
+      UpdateEngineSpeed(370 - resistance);
     } else if (vehicle_speed > 0 && engine_speed > idle_speed && !brake) {
       UpdateEngineSpeed(-(resistance));
     } else if (vehicle_speed > 0 && engine_speed > idle_speed && brake) {
@@ -67,7 +70,7 @@ void Driveline::UpdateEngineSpeed(float _delta, bool _clutch_engaged) {
     }
   } else if (gear == 0) {
     if (engine_speed > max_engine_speed) {
-      engine_speed = max_engine_speed-100;
+      engine_speed = max_engine_speed - 500;
     }
   }
   if (_clutch_engaged && gear > 0) {
