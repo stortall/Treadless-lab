@@ -2,38 +2,37 @@
 #ifndef USERINPUT_READER_H
 #define USERINPUT_READER_H
 
-#include "write_handler.hpp"
 #include <ncurses.h>
-#include<iostream>
-#include <cstring>
 #include <stdlib.h>
-#include "chrono"
+#include <cstring>
+#include <iostream>
+#include <chrono>
 #include "socketcan.h"
 #include "vCAN_Writer.hpp"
-
-
+#include "write_handler.hpp"
 
 WriteHandler write_handler;
 
-class InputReader{
-public:
-    char input;
-    bool on;
-public:
-    InputReader(){
-        initscr();
-        cbreak();
-        noecho();
-        // keypad(stdscr, TRUE);
-        scrollok(stdscr, TRUE);
-        nodelay(stdscr, TRUE);
-        on = true;
-    }
+class InputReader {
+ public:
+  char in;
+  bool on;
 
-    void readInput(){
-        char in;
+ public:
+  InputReader() {
+    initscr();
+    cbreak();
+    noecho();
+    // keypad(stdscr, TRUE);
+    scrollok(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+    on = true;
+  }
+
+  void readInput() {
     while ((in = getch()) == ERR) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));}
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
     if (in >= '0' && in <= '9') {
       write_handler.SetThrottle(in - '0');
     }
@@ -79,17 +78,14 @@ public:
     if (in == 'q') {
       write_handler.ToggleBattery();
     }
-    if (in == 27){
+    if (in == 27) {
       write_handler.SendShutOff();
       std::this_thread::sleep_for(std::chrono::milliseconds(500));
       on = false;
     }
     while (getch() != ERR) {
     }
-
-    }
+  }
 };
 
-
-
-#endif //USERINPUT_READER_H
+#endif  // USERINPUT_READER_H
