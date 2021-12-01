@@ -14,7 +14,7 @@
 #include "read_write_handler.hpp"
 #include "socketcan.h"
 
-class Driveline {
+class Emulator {
  private:
   float engine_speed;
   float vehicle_speed;
@@ -29,13 +29,9 @@ class Driveline {
   char GearSelectorState;
   int idle_speed;
   bool run;
-  ReaderWriteHandler rw_handler;
-  // Private Methods
-  void SendCAN();
-  void ReadCAN();
 
  public:
-  Driveline() :
+  Emulator() :
     engine_speed(0),
     vehicle_speed(0),
     throttle(0),

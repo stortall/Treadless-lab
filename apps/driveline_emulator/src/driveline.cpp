@@ -1,34 +1,14 @@
 #include "driveline.hpp"
 
-void Driveline::SendCAN() {
-  rw_handler.WriteEngineState(
-    GetVehicleSpeed(),
-    GetRPM() / 25,
-    std::max(GetGear(), 1),
-    GetGearSelectorState(),
-    GetResistance());
-}
-void Driveline::ReadCAN() {
-  scpp::CanFrame fr;
-  if (rw_handler.ReadFromCAN(fr) == scpp::STATUS_OK && fr.id == 0x123) {
-    std::cout << "Reading CAN" << std::endl;
-    SetThrottle(fr.data[0]);
-    SetBrake(fr.data[1]);
-    SetGearSelectorState(fr.data[3]);
-    ShutOffApp(fr.data[4]);
-  }
-}
-void Driveline::loop() {
+void Emulator::loop() {
   while (run) {
-    ReadCAN();
     UpdateResistance();
     UpdateState();
     PrintState();
-    SendCAN();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }
-void Driveline::UpdateState() {
+void Emulator::UpdateState() {
   if (GetGearSelectorState() == 'N' ||
     GetGearSelectorState() == 'D') {
     if (throttle > 0 && gear > 0) {
@@ -50,32 +30,32 @@ void Driveline::UpdateState() {
     }
   }
 }
-void Driveline::SetThrottle(unsigned int _value) {
+void Emulator::SetThrottle(unsigned int _value) {
   std::unique_lock lock(throttle_mutex);
   throttle = _value;
 }
-int Driveline::GetThrottle() {
+int Emulator::GetThrottle() {
   std::shared_lock lock(throttle_mutex);
   return throttle;
 }
-int Driveline::GetVehicleSpeed() {
+int Emulator::GetVehicleSpeed() {
   return vehicle_speed;
 }
-int Driveline::GetRPM() {
+int Emulator::GetRPM() {
   return engine_speed;
 }
-int Driveline::GetGear() {
+int Emulator::GetGear() {
   return gear;
 }
-void Driveline::SetBrake(int _i) {
+void Emulator::SetBrake(int _i) {
   const std::unique_lock lock(brake_mutex);
   brake = _i;
 }
-bool Driveline::GetBrake() {
+bool Emulator::GetBrake() {
   const std::shared_lock lock(brake_mutex);
   return brake;
 }
-void Driveline::UpdateEngineSpeed(float _delta, bool _clutch_engaged) {
+void Emulator::UpdateEngineSpeed(float _delta, bool _clutch_engaged) {
   engine_speed = engine_speed + _delta;
   if (!_clutch_engaged && engine_speed >= idle_speed) {
     engine_speed = engine_speed - (_delta * 3);
@@ -100,7 +80,7 @@ void Driveline::UpdateEngineSpeed(float _delta, bool _clutch_engaged) {
   }
 }
 
-void Driveline::PrintState() {
+void Emulator::PrintState() {
   system("clear");
   std::cout << "RPM:               " << GetRPM() << " rpm\r" << std::endl;
   std::cout << "Speed:             " << GetVehicleSpeed() << " km/h\r" << std::endl;
@@ -110,7 +90,7 @@ void Driveline::PrintState() {
   std::cout << "GearSelectorState: " << GetGearSelectorState() << "\r" << std::endl;
   std::cout << "Resistance:        " << GetResistance() << "\r" << std::endl;
 }
-bool Driveline::GearUp() {
+bool Emulator::GearUp() {
   bool ret = false;
   if (gear < (sizeof(ratio) / 4 - 1)) {
     gear++;
@@ -119,7 +99,7 @@ bool Driveline::GearUp() {
   }
   return ret;
 }
-bool Driveline::GearDown() {
+bool Emulator::GearDown() {
   bool ret = false;
   if (gear > 1) {
     gear--;
@@ -128,7 +108,7 @@ bool Driveline::GearDown() {
   }
   return ret;
 }
-void Driveline::UpdateResistance() {
+void Emulator::UpdateResistance() {
   int air_drag = static_cast<int>(std::pow((GetVehicleSpeed()/65.0), 3));
   int mass_resistance = static_cast<int>(std::pow((GetVehicleSpeed()/40.0), 2));
   int rolling_resistance = 10;
@@ -139,10 +119,10 @@ void Driveline::UpdateResistance() {
     resistance = internal_resistance;
   }
 }
-int Driveline::GetResistance() {
+int Emulator::GetResistance() {
   return resistance;
 }
-void Driveline::SetGearSelectorState(char _value) {
+void Emulator::SetGearSelectorState(char _value) {
   if (_value == 'P' && GetVehicleSpeed() == 0) {
     GearSelectorState = _value;
     gear = 0;
@@ -162,14 +142,14 @@ void Driveline::SetGearSelectorState(char _value) {
     UpdateEngineSpeed(idle_speed);
   }
 }
-char Driveline::GetGearSelectorState() {
+char Emulator::GetGearSelectorState() {
   return GearSelectorState;
 }
 
-bool Driveline::AppIsRunning() {
+bool Emulator::AppIsRunning() {
   return run;
 }
-void Driveline::ShutOffApp(int b) {
+void Emulator::ShutOffApp(int b) {
   if (b == 255) {
     run = false;
   }
