@@ -1,7 +1,7 @@
 
 #include "socketcan_cpp.h"
 #include "vCAN_Writer.hpp"
-#include "wh.hpp"
+#include "write_handler.hpp"
 #include  "driveline.hpp"
 
 
@@ -30,9 +30,9 @@ void CanReader(Driveline* engine) {
 }
 
 void CanSend(Driveline * engine) {
-  WriteHandler wh;
+  WriteHandler write_handler;
   while (engine->AppIsRunning()) {
-    wh.WriteEngineState(engine->GetVehicleSpeed(), (engine->GetRPM()/25),
+    write_handler.WriteEngineState(engine->GetVehicleSpeed(), (engine->GetRPM()/25),
       std::max(engine->GetGear(), 1), engine->GetGearSelectorState(), engine->GetResistance());
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }

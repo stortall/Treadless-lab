@@ -2,7 +2,7 @@
 #ifndef USERINPUT_READER_H
 #define USERINPUT_READER_H
 
-#include "wh.hpp"
+#include "write_handler.hpp"
 #include <ncurses.h>
 #include<iostream>
 #include <cstring>
@@ -13,7 +13,7 @@
 
 
 
-WriteHandler wh;
+WriteHandler write_handler;
 
 class InputReader{
 public:
@@ -35,52 +35,52 @@ public:
     while ((in = getch()) == ERR) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));}
     if (in >= '0' && in <= '9') {
-      wh.SetThrottle(in - '0');
+      write_handler.SetThrottle(in - '0');
     }
     if (in == 'b') {
-      wh.ToggleBreak();
+      write_handler.ToggleBreak();
     }
     if (in == 'p') {
-      wh.SetGearSelectorState('P');
+      write_handler.SetGearSelectorState('P');
     }
     if (in == 'n') {
-      wh.SetGearSelectorState('N');
+      write_handler.SetGearSelectorState('N');
     }
     if (in == 'd') {
-      wh.SetGearSelectorState('D');
+      write_handler.SetGearSelectorState('D');
     }
     if (in == 'h') {
-      wh.ToggleHazard();
+      write_handler.ToggleHazard();
     }
     if (in == 'o') {
-      wh.ToggleOilCheck();
+      write_handler.ToggleOilCheck();
     }
     if (in == 'a') {
-      wh.ToggleABS();
+      write_handler.ToggleABS();
     }
     if (in == 'l') {
-      wh.ToggleHighBeam();
+      write_handler.ToggleHighBeam();
     }
     if (in == 'z') {
-      wh.ToggleSeatBelt();
+      write_handler.ToggleSeatBelt();
     }
     if (in == 'c') {
-      wh.ToggleEngineCheck();
+      write_handler.ToggleEngineCheck();
     }
     if (in == 'y') {
-      wh.ToggleLeftBlinker();
+      write_handler.ToggleLeftBlinker();
     }
     if (in == 'u') {
-      wh.ToggleRightBlinker();
+      write_handler.ToggleRightBlinker();
     }
     if (in == 'x') {
-      wh.ToggleDoorsOpen();
+      write_handler.ToggleDoorsOpen();
     }
     if (in == 'q') {
-      wh.ToggleBattery();
+      write_handler.ToggleBattery();
     }
     if (in == 27){
-      wh.SendShutOff();
+      write_handler.SendShutOff();
       std::this_thread::sleep_for(std::chrono::milliseconds(500));
       on = false;
     }
