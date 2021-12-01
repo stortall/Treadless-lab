@@ -1,49 +1,42 @@
 
 #include "socketcan.h"
-#include "write_handler.hpp"
+#include "read_write_handler.hpp"
 #include "driveline.hpp"
 
-
-void CanReader(Driveline* engine) {
-  // init
-  bool run = true;
-  scpp::SocketCan sockat_can;
-  if (sockat_can.open("vcan0") != scpp::STATUS_OK) {
-    std::cout << "Cannot open vcan0." << std::endl;
-    std::cout << "Check whether the vcan0 interface is up!" << std::endl;
-    exit(-1);
-  }
-  while (run) {
-    scpp::CanFrame fr;
-    if (sockat_can.read(fr) == scpp::STATUS_OK && fr.id == 0x123) {
-      engine->SetThrottle(fr.data[0]);
-      engine->SetBrake(fr.data[1]);
-      engine->SetGearSelectorState(fr.data[3]);
-      engine->ShutOffApp(fr.data[4]);
-      if (fr.data[4] == 255) {
-        run = false;
-      }
+void WriteCAN(ReaderWriteHandler* _rwh, Emulator* _emu) {
+  _rwh->WriteEngineState(
+    _emu->GetVehicleSpeed(),
+    _emu->GetRPM() / 25,
+    std::max(_emu->GetGear(), 1),
+    _emu->GetGearSelectorState(),
+    _emu->GetResistance());
+}
+void ReadCAN(ReaderWriteHandler* _rwh, Emulator* _emu, bool* _run) {
+  scpp::CanFrame fr;
+  if (_rwh->ReadFromCAN(fr) == scpp::STATUS_OK && fr.id == 0x123) {
+    _emu->SetThrottle(fr.data[0]);
+    _emu->SetBrake(fr.data[1]);
+    _emu->SetGearSelectorState(fr.data[3]);
+    _emu->ShutOffApp(fr.data[4]);
+    if (fr.data[4] == 255) {
+      *_run = false;
     }
+  }
+}
+void CanReadWrite(Emulator* _emu) {
+  ReaderWriteHandler rw_handler;
+  bool run = true;
+  while (run) {
+    WriteCAN(&rw_handler, _emu);
+    ReadCAN(&rw_handler, _emu, &run);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }
-
-void CanSend(Driveline * engine) {
-  WriteHandler write_handler;
-  while (engine->AppIsRunning()) {
-    write_handler.WriteEngineState(engine->GetVehicleSpeed(), (engine->GetRPM()/25),
-      std::max(engine->GetGear(), 1), engine->GetGearSelectorState(), engine->GetResistance());
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-  }
-}
-
 int main() {
-  Driveline DL1;
-  std::thread DrivelineLoop(&Driveline::loop, &DL1);
-  std::thread InputLoop(CanReader, &DL1);
-  std::thread PrintLoop(CanSend, &DL1);
+  Emulator emu;
+  std::thread DrivelineLoop(&Emulator::loop, &emu);
+  std::thread CanLoop(CanReadWrite, &emu);
   DrivelineLoop.join();
-  InputLoop.join();
-  PrintLoop.join();
+  CanLoop.join();
   return 0;
 }

@@ -11,8 +11,10 @@
 #include <algorithm> 
 #include <map>
 #include <string>
+#include "read_write_handler.hpp"
+#include "socketcan.h"
 
-class Driveline {
+class Emulator {
  private:
   float engine_speed;
   float vehicle_speed;
@@ -29,7 +31,7 @@ class Driveline {
   bool run;
 
  public:
-  Driveline() :
+  Emulator() :
     engine_speed(0),
     vehicle_speed(0),
     throttle(0),
