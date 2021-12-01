@@ -1,35 +1,14 @@
+#include "userinput_reader.h"
 
-#ifndef USERINPUT_READER_H
-#define USERINPUT_READER_H
-
-#include <ncurses.h>
-#include <stdlib.h>
-#include <cstring>
-#include <iostream>
-#include <chrono>
-#include <thread>
-#include "socketcan.h"
-#include "write_handler.hpp"
-
-WriteHandler write_handler;
-
-class InputReader {
- public:
-  char in;
-  bool on;
-
- public:
-  InputReader() {
-    initscr();
-    cbreak();
-    noecho();
-    // keypad(stdscr, TRUE);
-    scrollok(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-    on = true;
-  }
-
-  void readInput() {
+InputReader::InputReader() {
+  initscr();
+  cbreak();
+  noecho();
+  scrollok(stdscr, TRUE);
+  nodelay(stdscr, TRUE);
+  on = true;
+}
+void InputReader::readInput() {
     while ((in = getch()) == ERR) {
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
@@ -86,6 +65,3 @@ class InputReader {
     while (getch() != ERR) {
     }
   }
-};
-
-#endif  // USERINPUT_READER_H
