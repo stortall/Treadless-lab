@@ -23,7 +23,7 @@ typedef union _icons {
   uint8_t Data[8]{0, 0, 0, 0, 0, 0, 0, 0};
 } Iconss_t;
 
-class WriteHandler {
+class ReaderWriteHandler {
  private:
   uint8_t value[8]{0, 0, 0, 0, 0, 0, 0, 0};
   Iconss_t icons;
@@ -34,7 +34,7 @@ class WriteHandler {
   void WriteToCAN(int _id, uint8_t _value[]);
 
  public:
-  WriteHandler();
+  ReaderWriteHandler();
   void ToggleBreak();
   void SetThrottle(int _value);
   void SetGearSelectorState(char _value);
@@ -53,6 +53,7 @@ class WriteHandler {
   void ToggleLeftBlinker();
   void ToggleRightBlinker();
   void SendShutOff();
+  scpp::SocketCanStatus ReadFromCAN(scpp::CanFrame& _fr);
 };
 
 #endif

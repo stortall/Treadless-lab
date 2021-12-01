@@ -1,10 +1,30 @@
 #include "driveline.hpp"
 
+void Driveline::SendCAN() {
+  rw_handler.WriteEngineState(
+    GetVehicleSpeed(),
+    GetRPM() / 25,
+    std::max(GetGear(), 1),
+    GetGearSelectorState(),
+    GetResistance());
+}
+void Driveline::ReadCAN() {
+  scpp::CanFrame fr;
+  if (rw_handler.ReadFromCAN(fr) == scpp::STATUS_OK && fr.id == 0x123) {
+    std::cout << "Reading CAN" << std::endl;
+    SetThrottle(fr.data[0]);
+    SetBrake(fr.data[1]);
+    SetGearSelectorState(fr.data[3]);
+    ShutOffApp(fr.data[4]);
+  }
+}
 void Driveline::loop() {
   while (run) {
-    Driveline::UpdateResistance();
-    Driveline::UpdateState();
-    Driveline::PrintState();
+    ReadCAN();
+    UpdateResistance();
+    UpdateState();
+    PrintState();
+    SendCAN();
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }

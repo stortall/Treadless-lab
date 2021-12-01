@@ -13,52 +13,52 @@ void InputReader::readInput() {
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     if (in >= '0' && in <= '9') {
-      write_handler.SetThrottle(in - '0');
+      rw_handler.SetThrottle(in - '0');
     }
     if (in == 'b') {
-      write_handler.ToggleBreak();
+      rw_handler.ToggleBreak();
     }
     if (in == 'p') {
-      write_handler.SetGearSelectorState('P');
+      rw_handler.SetGearSelectorState('P');
     }
     if (in == 'n') {
-      write_handler.SetGearSelectorState('N');
+      rw_handler.SetGearSelectorState('N');
     }
     if (in == 'd') {
-      write_handler.SetGearSelectorState('D');
+      rw_handler.SetGearSelectorState('D');
     }
     if (in == 'h') {
-      write_handler.ToggleHazard();
+      rw_handler.ToggleHazard();
     }
     if (in == 'o') {
-      write_handler.ToggleOilCheck();
+      rw_handler.ToggleOilCheck();
     }
     if (in == 'a') {
-      write_handler.ToggleABS();
+      rw_handler.ToggleABS();
     }
     if (in == 'l') {
-      write_handler.ToggleHighBeam();
+      rw_handler.ToggleHighBeam();
     }
     if (in == 'z') {
-      write_handler.ToggleSeatBelt();
+      rw_handler.ToggleSeatBelt();
     }
     if (in == 'c') {
-      write_handler.ToggleEngineCheck();
+      rw_handler.ToggleEngineCheck();
     }
     if (in == 'y') {
-      write_handler.ToggleLeftBlinker();
+      rw_handler.ToggleLeftBlinker();
     }
     if (in == 'u') {
-      write_handler.ToggleRightBlinker();
+      rw_handler.ToggleRightBlinker();
     }
     if (in == 'x') {
-      write_handler.ToggleDoorsOpen();
+      rw_handler.ToggleDoorsOpen();
     }
     if (in == 'q') {
-      write_handler.ToggleBattery();
+      rw_handler.ToggleBattery();
     }
     if (in == 27) {
-      write_handler.SendShutOff();
+      rw_handler.SendShutOff();
       std::this_thread::sleep_for(std::chrono::milliseconds(500));
       on = false;
     }

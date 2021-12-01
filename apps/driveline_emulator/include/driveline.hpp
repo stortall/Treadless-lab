@@ -11,6 +11,8 @@
 #include <algorithm> 
 #include <map>
 #include <string>
+#include "read_write_handler.hpp"
+#include "socketcan.h"
 
 class Driveline {
  private:
@@ -27,6 +29,10 @@ class Driveline {
   char GearSelectorState;
   int idle_speed;
   bool run;
+  ReaderWriteHandler rw_handler;
+  // Private Methods
+  void SendCAN();
+  void ReadCAN();
 
  public:
   Driveline() :

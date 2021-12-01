@@ -9,11 +9,11 @@
 #include <chrono>
 #include <thread>
 #include "socketcan.h"
-#include "write_handler.hpp"
+#include "read_write_handler.hpp"
 
 class InputReader {
  public:
-  WriteHandler write_handler;
+  ReaderWriteHandler rw_handler;
   char in;
   bool on;
 
