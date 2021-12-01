@@ -7,8 +7,8 @@
 #include <cstring>
 #include <iostream>
 #include <chrono>
+#include <thread>
 #include "socketcan.h"
-#include "vCAN_Writer.hpp"
 #include "write_handler.hpp"
 
 WriteHandler write_handler;

@@ -4,7 +4,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 include_directories(include)
-add_library(can_lib STATIC src/write_handler.cpp src/vCAN_Writer.cpp src/socketcan.cpp )
+add_library(can_lib STATIC src/write_handler.cpp src/socketcan.cpp )
 
 set_target_properties(can_lib
 

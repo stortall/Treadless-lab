@@ -1,8 +1,7 @@
 
 #include "socketcan.h"
-#include "vCAN_Writer.hpp"
 #include "write_handler.hpp"
-#include  "driveline.hpp"
+#include "driveline.hpp"
 
 
 void CanReader(Driveline* engine) {

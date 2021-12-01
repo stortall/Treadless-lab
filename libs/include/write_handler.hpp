@@ -1,8 +1,8 @@
 #ifndef WRITEHANDLER_HPP_
 #define WRITEHANDLER_HPP_
-#include "socketcan.h"
-#include "vCAN_Writer.hpp"
+#include <iostream>
 #include <cstring>
+#include "socketcan.h"
 
 typedef union _icons {
   struct __attribute__((packed)) _bits {
@@ -18,7 +18,7 @@ typedef union _icons {
     unsigned char  high_beam : 1;
     unsigned char  hand_break : 1;
     unsigned char  _reserved_pad : 5;
-    unsigned char  res_pad_2 [6];
+    unsigned char  res_pad_2[6];
   } Bits;
   uint8_t Data[8]{0, 0, 0, 0, 0, 0, 0, 0};
 } Iconss_t;
@@ -30,7 +30,8 @@ class WriteHandler {
   int toEmuFromInput = 0x123;
   int toICFromInput = 0x333;
   int toICFromEmu = 0x321;
-  VCANWriter vcw;
+  scpp::SocketCan sockat_can;
+  void WriteToCAN(int _id, uint8_t _value[]);
 
  public:
   WriteHandler();
@@ -52,6 +53,6 @@ class WriteHandler {
   void ToggleLeftBlinker();
   void ToggleRightBlinker();
   void SendShutOff();
-
 };
+
 #endif
