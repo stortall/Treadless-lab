@@ -1,6 +1,14 @@
 # Treadless-lab
 Code for c++ bootcamp lab
 
+
+## Design
+### Modules
+![Module Diagram](./uml/module_diagram.png)
+
+### Sequence
+![Sequence](./uml/sequence.png)
+
 ## Pre run
 Install the below packages (apt install):
 1. g++ tools `sudo apt install build-essential gdb`
