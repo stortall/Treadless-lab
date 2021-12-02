@@ -82,16 +82,17 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
 
 
         }
+         this->InstrumentCluster.setIcon(&icn);
 
         if(_frame->data[3] == 'N'||_frame->data[3] == 'D')
         {
           this->InstrumentCluster.ignite(1);
         }
         else
-          {this->InstrumentCluster.setOilTemperatureGauges(CANID::oil_temp);
-        this->InstrumentCluster.setTemperatureGauges(CANID::temp);
-        this->InstrumentCluster.setFuelGauges(CANID::fuel_level);}
-    this->InstrumentCluster.setIcon(&icn);
+          {this->InstrumentCluster.ignite(0);
+        this->InstrumentCluster.setOilTemperatureGauges(0);
+        this->InstrumentCluster.setTemperatureGauges(0);
+        this->InstrumentCluster.setFuelGauges(0);}
         break;
     }
     default:
