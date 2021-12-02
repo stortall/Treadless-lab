@@ -18,6 +18,7 @@ private:
     void YouHaveJustRecievedACANFrame(const canfd_frame * const _frame);    
     void timerEvent(QTimerEvent*) override;
     //void SetIcons(__u8 data1,__u8 data2);
+    double x;
 
 
 //signals:

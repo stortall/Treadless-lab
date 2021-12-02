@@ -390,6 +390,26 @@ ApplicationWindow {
         }
     }
 
+
+     Image {
+        x: 1400
+        y: 1000
+        width: 100
+        height: 100
+
+        source: valueSource.startUp ? './images/ev.png' : './images/ev_B.png'
+        
+        //x: 772
+    }
+     Image {
+        x: 760
+        y: 840
+        width: 400
+        height: 400
+
+        source: valueSource.startUp ? './images/tred1.png' : './images/tred.png'
+        //x: 772
+    }
     Image {
         x: 740
         y: 451

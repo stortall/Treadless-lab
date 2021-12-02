@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++17   CMakeFiles/input.dir/src/main.cpp.o  -o input  ../../libs/libcan_lib.a -lncurses 
