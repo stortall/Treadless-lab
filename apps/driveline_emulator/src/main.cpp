@@ -4,28 +4,23 @@
 #include "socketcan.h"
 
 void WriteCAN(ReaderWriteHandler* _rwh, Emulator* _emu) {
-  _rwh->WriteEngineState(_emu->GetVehicleSpeed(), _emu->GetRPM() / 25,
-                         std::max(_emu->GetGear(), 1),
-                         _emu->GetGearSelectorState(), _emu->GetResistance());
+  Output data = _emu->GetOutputParameters();
+  _rwh->WriteEngineState(data.vehicle_speed, data.engine_speed / 25,
+                         std::max(data.gear, 1), data.GearSelectorState,
+                         data.resistance);
 }
-void ReadCAN(ReaderWriteHandler* _rwh, Emulator* _emu, bool* _run) {
+void ReadCAN(ReaderWriteHandler* _rwh, Emulator* _emu) {
   scpp::CanFrame fr;
   if (_rwh->ReadFromCAN(fr) == scpp::STATUS_OK && fr.id == 0x123) {
-    _emu->SetThrottle(fr.data[0]);
-    _emu->SetBrake(fr.data[1]);
-    _emu->SetGearSelectorState(fr.data[3]);
-    _emu->ShutOffApp(fr.data[4]);
-    if (fr.data[4] == 255) {
-      *_run = false;
-    }
+    _emu->SetInputParameters(fr);
   }
 }
 void CanReadWrite(Emulator* _emu) {
   ReaderWriteHandler rw_handler;
   bool run = true;
-  while (run) {
+  while (_emu->AppIsRunning()) {
     WriteCAN(&rw_handler, _emu);
-    ReadCAN(&rw_handler, _emu, &run);
+    ReadCAN(&rw_handler, _emu);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 }
