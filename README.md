@@ -39,6 +39,7 @@ This will open 3 terminals ,input ,emu and cluster.Give keys in input cluster wi
 9. press u for right blinker
 10. press x for door open
 11. press q for battery
+12. press ESC for gracefull shutdown of application
 
 
 
