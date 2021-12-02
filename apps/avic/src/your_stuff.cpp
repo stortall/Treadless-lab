@@ -12,8 +12,8 @@ namespace CANID
     const canid_t TO_IC_FROM_INPUT = 0x123;
     const canid_t ICONS =0x333;
     const double temp = 30;
-    const double oil_temp =100;
-    const double fuel_level =50;
+    const double oil_temp =50;
+    const double fuel_level =80;
     const double fake_rpm=1500;
 
 }// namespace CANID
@@ -24,6 +24,8 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
     switch (_frame->can_id) {
     case CANID::TO_IC_FROM_EMU: {
         this->InstrumentCluster.setSpeed(_frame->data[0]);
+    QString accbrakegear = "Friction Resistance on the vehicle:" + QString::number(_frame->data[4],10)+ "\n";
+        this->InstrumentCluster.setTXT(accbrakegear);
 
         this->InstrumentCluster.setRPM((_frame->data[1])*25);
         this->InstrumentCluster.setGear(_frame->data[2]);
@@ -47,6 +49,7 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         {
             this->InstrumentCluster.setFuelGauges((CANID::fuel_level-10));
             this->InstrumentCluster.setOilTemperatureGauges(CANID::oil_temp+10);
+             this->InstrumentCluster.setTemperatureGauges(CANID::temp+10);
 
         }
         if(_frame->data[3] == 'N'||_frame->data[3] == 'D')
@@ -54,8 +57,11 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
           this->InstrumentCluster.ignite(1);
         }
         else
-          this->InstrumentCluster.ignite(0);
-        
+          {this->InstrumentCluster.ignite(0);
+            this->InstrumentCluster.setOilTemperatureGauges(0);
+        this->InstrumentCluster.setTemperatureGauges(0);
+        this->InstrumentCluster.setFuelGauges(0);
+          }
         break;
     }
     case CANID::ICONS: {
@@ -63,6 +69,8 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
        icn.Data[0] =_frame->data[0];
        icn.Data[1] =_frame->data[1];
     this->InstrumentCluster.setOilTemperatureGauges(CANID::oil_temp);
+    QString accbrakegear = "Friction Resistance on the vehicle:" + QString::number(_frame->data[4],10)+ "\n";
+        this->InstrumentCluster.setTXT(accbrakegear);
     this->InstrumentCluster.setTemperatureGauges(CANID::temp);
     this->InstrumentCluster.setFuelGauges(CANID::fuel_level);
 
@@ -70,6 +78,8 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         {
             this->InstrumentCluster.setFuelGauges((CANID::fuel_level-10));
             this->InstrumentCluster.setOilTemperatureGauges(CANID::oil_temp+10);
+            this->InstrumentCluster.setTemperatureGauges(CANID::temp+10);
+
 
         }
 
@@ -78,7 +88,9 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
           this->InstrumentCluster.ignite(1);
         }
         else
-          this->InstrumentCluster.ignite(0);
+          {this->InstrumentCluster.setOilTemperatureGauges(CANID::oil_temp);
+        this->InstrumentCluster.setTemperatureGauges(CANID::temp);
+        this->InstrumentCluster.setFuelGauges(CANID::fuel_level);}
     this->InstrumentCluster.setIcon(&icn);
         break;
     }

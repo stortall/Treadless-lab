@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++17   CMakeFiles/emu.dir/src/main.cpp.o CMakeFiles/emu.dir/src/driveline.cpp.o  -o emu  ../../libs/libcan_lib.a -lpthread 

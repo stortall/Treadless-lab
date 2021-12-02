@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ptyagi1/projects/CAN/CAN/Treadless-lab/apps/input_handler/src/main.cpp
+ncurses.h
+/home/ptyagi1/projects/CAN/CAN/Treadless-lab/apps/input_handler/src/ncurses.h
+iostream
+-
+wh.hpp
+/home/ptyagi1/projects/CAN/CAN/Treadless-lab/apps/input_handler/src/wh.hpp
+chrono
+/home/ptyagi1/projects/CAN/CAN/Treadless-lab/apps/input_handler/src/chrono
+
+libs/include/socketcan_cpp.h
+string
+-
+linux/can.h
+-
+
+libs/include/vCAN_Writer.hpp
+iostream
+-
+socketcan_cpp.h
+libs/include/socketcan_cpp.h
+chrono
+-
+thread
+-
+
+libs/include/wh.hpp
+socketcan_cpp.h
+libs/include/socketcan_cpp.h
+vCAN_Writer.hpp
+libs/include/vCAN_Writer.hpp
+

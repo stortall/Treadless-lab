@@ -392,20 +392,38 @@ ApplicationWindow {
 
 
      Image {
-        x: 910
-        y: 651
+        x: 1400
+        y: 1000
         width: 100
         height: 100
 
         source: valueSource.startUp ? './images/ev.png' : './images/ev_B.png'
+        
         //x: 772
     }
+     Image {
+        x: 760
+        y: 840
+        width: 400
+        height: 400
 
+        source: valueSource.startUp ? './images/tred1.png' : './images/tred.png'
+        //x: 772
+    }
+    Image {
+        x: 740
+        y: 451
+        width: 441
+        height: 190
+
+        source: valueSource.startUp ? './images/logod.png' : './images/logod_B.png'
+        //x: 772
+    }
 
     Rectangle {
         id: rectangle
         x: 740
-        y: 451
+        y: 664
         width: 441
         height: 130
         color: "black"
