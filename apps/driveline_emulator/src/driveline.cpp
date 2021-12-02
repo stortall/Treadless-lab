@@ -9,8 +9,7 @@ void Emulator::loop() {
   }
 }
 void Emulator::UpdateState() {
-  if (GetGearSelectorState() == 'N' ||
-    GetGearSelectorState() == 'D') {
+  if (GetGearSelectorState() == 'N' || GetGearSelectorState() == 'D') {
     if (throttle > 0 && gear > 0) {
       brake = false;
       UpdateEngineSpeed(370 * ratio[gear] / ratio[1] - resistance);
@@ -38,15 +37,9 @@ int Emulator::GetThrottle() {
   std::shared_lock lock(throttle_mutex);
   return throttle;
 }
-int Emulator::GetVehicleSpeed() {
-  return vehicle_speed;
-}
-int Emulator::GetRPM() {
-  return engine_speed;
-}
-int Emulator::GetGear() {
-  return gear;
-}
+int Emulator::GetVehicleSpeed() { return vehicle_speed; }
+int Emulator::GetRPM() { return engine_speed; }
+int Emulator::GetGear() { return gear; }
 void Emulator::SetBrake(int _i) {
   const std::unique_lock lock(brake_mutex);
   brake = _i;
@@ -83,11 +76,13 @@ void Emulator::UpdateEngineSpeed(float _delta, bool _clutch_engaged) {
 void Emulator::PrintState() {
   system("clear");
   std::cout << "RPM:               " << GetRPM() << " rpm\r" << std::endl;
-  std::cout << "Speed:             " << GetVehicleSpeed() << " km/h\r" << std::endl;
+  std::cout << "Speed:             " << GetVehicleSpeed() << " km/h\r"
+            << std::endl;
   std::cout << "Gear:              " << GetGear() << "\r" << std::endl;
   std::cout << "Throttle:          " << GetThrottle() << "\r" << std::endl;
   std::cout << "Brake:             " << GetBrake() << "\r" << std::endl;
-  std::cout << "GearSelectorState: " << GetGearSelectorState() << "\r" << std::endl;
+  std::cout << "GearSelectorState: " << GetGearSelectorState() << "\r"
+            << std::endl;
   std::cout << "Resistance:        " << GetResistance() << "\r" << std::endl;
 }
 bool Emulator::GearUp() {
@@ -109,46 +104,44 @@ bool Emulator::GearDown() {
   return ret;
 }
 void Emulator::UpdateResistance() {
-  int air_drag = static_cast<int>(std::pow((GetVehicleSpeed()/65.0), 3));
-  int mass_resistance = static_cast<int>(std::pow((GetVehicleSpeed()/40.0), 2));
+  int air_drag = static_cast<int>(std::pow((GetVehicleSpeed() / 65.0), 3));
+  int mass_resistance =
+      static_cast<int>(std::pow((GetVehicleSpeed() / 40.0), 2));
   int rolling_resistance = 10;
-  int internal_resistance = static_cast<int>(GetRPM()/400.0);
+  int internal_resistance = static_cast<int>(GetRPM() / 400.0);
   if (gear > 0) {
-    resistance = air_drag + mass_resistance + rolling_resistance + internal_resistance;
+    resistance =
+        air_drag + mass_resistance + rolling_resistance + internal_resistance;
   } else {
     resistance = internal_resistance;
   }
 }
-int Emulator::GetResistance() {
-  return resistance;
-}
+int Emulator::GetResistance() { return resistance; }
 void Emulator::SetGearSelectorState(char _value) {
   if (_value == 'P' && GetVehicleSpeed() == 0) {
     GearSelectorState = _value;
     gear = 0;
     engine_speed = 0;
-  // } else if (_value == 'R' && GetVehicleSpeed() == 0) {
-  //   GearSelectorState = _value;
-  //   gear = 0;
-  //   engine_speed = 0;
-  } else if (_value == 'N' && GetVehicleSpeed() == 0 && GearSelectorState != 'N') {
+    // } else if (_value == 'R' && GetVehicleSpeed() == 0) {
+    //   GearSelectorState = _value;
+    //   gear = 0;
+    //   engine_speed = 0;
+  } else if (_value == 'N' && GetVehicleSpeed() == 0 &&
+             GearSelectorState != 'N') {
     GearSelectorState = _value;
     gear = 0;
     engine_speed = 0;
-  } else if (_value == 'D' && GetVehicleSpeed() == 0 && GearSelectorState != 'D') {
+  } else if (_value == 'D' && GetVehicleSpeed() == 0 &&
+             GearSelectorState != 'D') {
     GearSelectorState = _value;
     gear = 1;
     engine_speed = 0;
     UpdateEngineSpeed(idle_speed);
   }
 }
-char Emulator::GetGearSelectorState() {
-  return GearSelectorState;
-}
+char Emulator::GetGearSelectorState() { return GearSelectorState; }
 
-bool Emulator::AppIsRunning() {
-  return run;
-}
+bool Emulator::AppIsRunning() { return run; }
 void Emulator::ShutOffApp(int b) {
   if (b == 255) {
     run = false;

@@ -1,15 +1,12 @@
 
-#include "socketcan.h"
-#include "read_write_handler.hpp"
 #include "driveline.hpp"
+#include "read_write_handler.hpp"
+#include "socketcan.h"
 
 void WriteCAN(ReaderWriteHandler* _rwh, Emulator* _emu) {
-  _rwh->WriteEngineState(
-    _emu->GetVehicleSpeed(),
-    _emu->GetRPM() / 25,
-    std::max(_emu->GetGear(), 1),
-    _emu->GetGearSelectorState(),
-    _emu->GetResistance());
+  _rwh->WriteEngineState(_emu->GetVehicleSpeed(), _emu->GetRPM() / 25,
+                         std::max(_emu->GetGear(), 1),
+                         _emu->GetGearSelectorState(), _emu->GetResistance());
 }
 void ReadCAN(ReaderWriteHandler* _rwh, Emulator* _emu, bool* _run) {
   scpp::CanFrame fr;

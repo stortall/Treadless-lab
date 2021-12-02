@@ -4,12 +4,14 @@
 
 #include <ncurses.h>
 #include <stdlib.h>
+
+#include <chrono>
 #include <cstring>
 #include <iostream>
-#include <chrono>
 #include <thread>
-#include "socketcan.h"
+
 #include "read_write_handler.hpp"
+#include "socketcan.h"
 
 class InputReader {
  public:
@@ -22,4 +24,4 @@ class InputReader {
   void readInput();
 };
 
-#endif // USERINPUT_READER_H
+#endif  // USERINPUT_READER_H

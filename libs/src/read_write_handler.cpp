@@ -25,13 +25,12 @@ scpp::SocketCanStatus ReaderWriteHandler::ReadFromCAN(scpp::CanFrame& _fr) {
   return sockat_can.read(_fr);
 }
 
-void ReaderWriteHandler::SetThrottle(int _value) {
+void ReaderWriteHandler::SetThrottle(const int _value) {
   value[0] = _value;
   value[1] = 0;
-
   WriteToCAN(toEmuFromInput, value);
 }
-void ReaderWriteHandler::SetGearSelectorState(char _value) {
+void ReaderWriteHandler::SetGearSelectorState(const char _value) {
   value[3] = _value;
   WriteToCAN(toEmuFromInput, value);
 }
@@ -39,19 +38,15 @@ void ReaderWriteHandler::ToggleBreak() {
   if (value[1] == 0) {
     value[1] = 1;
     value[0] = 0;  // turn off throttle
-    WriteToCAN(toEmuFromInput, value);
+
   } else if (value[1] == 1) {
     value[1] = 0;
-    WriteToCAN(toEmuFromInput, value);
   }
+  WriteToCAN(toEmuFromInput, value);
 }
-void ReaderWriteHandler::WriteRPM(float _value) {}
-void ReaderWriteHandler::WriteVehicleSpeed(float _value) {
-  // value[0] = _value;
-  // WriteToCAN(toICFromEmu, value);
-}
+
 void ReaderWriteHandler::WriteEngineState(float _vs, float _es, int _gear,
-                                    char _gear_shifter_state, int _res) {
+                                          char _gear_shifter_state, int _res) {
   value[0] = _vs;
   value[1] = _es;
   value[2] = _gear;
@@ -60,102 +55,57 @@ void ReaderWriteHandler::WriteEngineState(float _vs, float _es, int _gear,
   WriteToCAN(toICFromEmu, value);
 }
 void ReaderWriteHandler::ToggleHazard() {
-  if (icons.Bits.hazard == 1) {
-    icons.Bits.hazard = 0;
-  } else {
-    icons.Bits.hazard = 1;
-  }
-
+  icons.Bits.hazard ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleABS() {
-  if (icons.Bits.abs == 1) {
-    icons.Bits.abs = 0;
-  } else {
-    icons.Bits.abs = 1;
-  }
+  icons.Bits.abs ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleDoorsOpen() {
-  if (icons.Bits.doors_open == 1) {
-    icons.Bits.doors_open = 0;
-  } else {
-    icons.Bits.doors_open = 1;
-  }
+  icons.Bits.doors_open ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleEngineCheck() {
-  if (icons.Bits.engine_check == 1) {
-    icons.Bits.engine_check = 0;
-  } else {
-    icons.Bits.engine_check = 1;
-  }
+  icons.Bits.engine_check ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleHandBrake() {
-  if (icons.Bits.hand_break == 1) {
-    icons.Bits.hand_break = 0;
-  } else {
-    icons.Bits.hand_break = 1;
-  }
+  icons.Bits.hand_break ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleHighBeam() {
-  if (icons.Bits.high_beam == 1) {
-    icons.Bits.high_beam = 0;
-  } else {
-    icons.Bits.high_beam = 1;
-  }
+  icons.Bits.high_beam ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleLeftBlinker() {
-  if (icons.Bits.left_blinker == 1) {
-    icons.Bits.left_blinker = 0;
-  } else {
-    icons.Bits.left_blinker = 1;
-  }
+  icons.Bits.left_blinker ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleRightBlinker() {
-  if (icons.Bits.right_blinker == 1) {
-    icons.Bits.right_blinker = 0;
-  } else {
-    icons.Bits.right_blinker = 1;
-  }
+  icons.Bits.right_blinker ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleOilCheck() {
-  if (icons.Bits.oil_check == 1) {
-    icons.Bits.oil_check = 0;
-  } else {
-    icons.Bits.oil_check = 1;
-  }
+  icons.Bits.oil_check ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleSeatBelt() {
-  if (icons.Bits.seat_belt == 1) {
-    icons.Bits.seat_belt = 0;
-  } else {
-    icons.Bits.seat_belt = 1;
-  }
+  icons.Bits.seat_belt ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 
 void ReaderWriteHandler::ToggleBattery() {
-  if (icons.Bits.battery == 1) {
-    icons.Bits.battery = 0;
-  } else {
-    icons.Bits.battery = 1;
-  }
+  icons.Bits.battery ^= 0b1;
   WriteToCAN(toICFromInput, icons.Data);
 }
 void ReaderWriteHandler::SendShutOff() {
