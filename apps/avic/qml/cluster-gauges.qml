@@ -390,13 +390,14 @@ ApplicationWindow {
         }
     }
 
-    Image {
-        x: 740
-        y: 451
-        width: 441
-        height: 190
 
-        source: valueSource.startUp ? './images/logod.png' : './images/logod_B.png'
+     Image {
+        x: 910
+        y: 651
+        width: 100
+        height: 100
+
+        source: valueSource.startUp ? './images/ev.png' : './images/ev_B.png'
         //x: 772
     }
         Image {
@@ -412,7 +413,7 @@ ApplicationWindow {
     Rectangle {
         id: rectangle
         x: 740
-        y: 664
+        y: 451
         width: 441
         height: 130
         color: "black"

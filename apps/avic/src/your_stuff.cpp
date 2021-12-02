@@ -44,14 +44,11 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
         this->InstrumentCluster.setTemperatureGauges(CANID::temp);
         this->InstrumentCluster.setFuelGauges(CANID::fuel_level);
             if (double(((_frame->data[1])*25))>(CANID::fake_rpm))
-        {     x=10;
-            this->InstrumentCluster.setFuelGauges((CANID::fuel_level-x));
+        {
+            this->InstrumentCluster.setFuelGauges((CANID::fuel_level-10));
             this->InstrumentCluster.setOilTemperatureGauges(CANID::oil_temp+10);
-            x+10;
-        }
-        QString accbrakegear = "Resistance:" + QString::number(_frame->data[4],10)+ "\n"+"x:"+ QString::number(int(x),10)+ "\n";
-        this->InstrumentCluster.setTXT(accbrakegear);
 
+        }
         if(_frame->data[3] == 'N'||_frame->data[3] == 'D')
         {
           this->InstrumentCluster.ignite(1);
@@ -71,7 +68,7 @@ void yourStuff::YouHaveJustRecievedACANFrame(const canfd_frame * const _frame) {
 
             if (double(((_frame->data[1])*25))>(CANID::fake_rpm))
         {
-            this->InstrumentCluster.setFuelGauges((CANID::fuel_level-x));
+            this->InstrumentCluster.setFuelGauges((CANID::fuel_level-10));
             this->InstrumentCluster.setOilTemperatureGauges(CANID::oil_temp+10);
 
         }
