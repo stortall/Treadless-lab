@@ -399,6 +399,15 @@ ApplicationWindow {
         source: valueSource.startUp ? './images/logod.png' : './images/logod_B.png'
         //x: 772
     }
+        Image {
+        x: 100
+        y: 751
+        width: 130
+        height: 130
+
+        source: valueSource.startUp ? './images/treadless.png' : './images/logtreadless.png'
+        //x: 772
+    }
 
     Rectangle {
         id: rectangle
