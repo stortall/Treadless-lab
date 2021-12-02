@@ -31,15 +31,8 @@
         <file>alten.png</file>
         <file>alten_s.svg</file>
         <file>logod.png</file>
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
         <file>treadless.png</file>
-=======
-        <file>volvo.png</file>
->>>>>>> Stashed changes
-=======
-        <file>volvo.png</file>
->>>>>>> Stashed changes
+         <file>volvo.png</file>
         <file>AGL_Icons_Seatbelt_yellow.svg</file>
     </qresource>
 </RCC>

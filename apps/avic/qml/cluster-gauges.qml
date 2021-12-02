@@ -398,20 +398,9 @@ ApplicationWindow {
         height: 100
 
         source: valueSource.startUp ? './images/ev.png' : './images/ev_B.png'
-<<<<<<< Updated upstream
         //x: 772
     }
-        Image {
-        x: 100
-        y: 751
-        width: 130
-        height: 130
 
-        source: valueSource.startUp ? './images/treadless.png' : './images/logtreadless.png'
-=======
->>>>>>> Stashed changes
-        //x: 772
-    }
 
     Rectangle {
         id: rectangle
