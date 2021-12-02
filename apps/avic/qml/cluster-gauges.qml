@@ -398,6 +398,7 @@ ApplicationWindow {
         height: 100
 
         source: valueSource.startUp ? './images/ev.png' : './images/ev_B.png'
+<<<<<<< Updated upstream
         //x: 772
     }
         Image {
@@ -407,6 +408,8 @@ ApplicationWindow {
         height: 130
 
         source: valueSource.startUp ? './images/treadless.png' : './images/logtreadless.png'
+=======
+>>>>>>> Stashed changes
         //x: 772
     }
 
